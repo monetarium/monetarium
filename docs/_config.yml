@@ -1,0 +1,23 @@
+title: Monetarium Documentation
+description: Documentation for Monetarium project
+baseurl: "/monetarium"
+url: "https://voronchuk.github.io"
+theme: minima
+
+# Enable GitHub Pages
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+exclude:
+  - dcrctl/
+  - dcrd/
+  - dcrwallet/
+
+markdown: kramdown
+kramdown:
+  input: GFM  # Use GitHub Flavored Markdown
+  syntax_highlighter: rouge
