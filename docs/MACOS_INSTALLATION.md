@@ -58,7 +58,10 @@ uname -m
 
 ### Step 2: Download from GitHub
 
-Visit the releases page: **https://github.com/monetarium/releases**
+Visit the release pages:
+- [node](https://github.com/monetarium/monetarium/releases)
+- [wallet](https://github.com/monetarium/monetarium/releases)
+- [ctl](https://github.com/monetarium/monetarium/releases)
 
 Download the following files for your architecture:
 
