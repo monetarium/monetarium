@@ -8,6 +8,7 @@ title: Monetarium Documentation
 ## Available Documents
 
 ### Installation Guides
+- [Linux Setup](LINUX_INSTALLATION.md)
 - [MacOS Setup](MACOS_INSTALLATION.md)
 - [Windows Setup](WINDOWS_INSTALLATION.md)
 
