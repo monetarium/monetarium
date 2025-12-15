@@ -386,6 +386,43 @@ The node has built-in Windows service support. Run PowerShell as Administrator:
 C:\monetarium\node.exe --service install
 ```
 
+#### Configure Service Account (Required)
+
+> **Important**: By default, the service runs as the SYSTEM account, which uses a different data directory than your user account. You must configure the service to run as your user account to use your existing configuration and certificates.
+
+**Option A: Using GUI (Recommended)**
+
+1. Press `Win + R`, type `services.msc`, press Enter
+2. Find **"Monetarium Node Service"** (or `monetariumsvc`)
+3. Right-click → **Properties**
+4. On the **General** tab, set **Startup type** to **Automatic**
+5. Go to **Log On** tab
+6. Select **"This account"**
+7. Enter your Windows username (e.g., `.\YourUsername` for local accounts)
+8. Enter your Windows password (see note below)
+9. Click **OK**
+
+**Option B: Using Command Line**
+
+```powershell
+# Replace YourUsername and YourPassword with your Windows credentials
+sc.exe config monetariumsvc obj= ".\YourUsername" password= "YourPassword"
+```
+
+> **Note**: The spaces after `obj=` and `password=` are required by sc.exe syntax.
+
+> **Password Clarification**: You must use your actual Windows account password, **not** a PIN or Windows Hello. If you sign in with a Microsoft Account, use your full Microsoft Account password (the one for outlook.com/microsoft.com). PIN codes and biometric authentication (fingerprint/face) will not work for service accounts.
+
+#### Enable Auto-Start on Boot
+
+To ensure the node starts automatically when Windows boots:
+
+```powershell
+sc.exe config monetariumsvc start= auto
+```
+
+> **Note**: The space after `start=` is required by sc.exe syntax.
+
 #### Start Service
 
 ```powershell
@@ -437,6 +474,14 @@ Download [NSSM](https://nssm.cc/) (Non-Sucking Service Manager) and run as Admin
 # Install wallet as service
 nssm install MonetariumWallet C:\monetarium\wallet.exe
 
+# Configure to run as your user account (required)
+# Replace YourUsername and YourPassword with your Windows credentials
+# NOTE: Use your actual Windows password, NOT a PIN code
+nssm set MonetariumWallet ObjectName ".\YourUsername" "YourPassword"
+
+# Enable auto-start on Windows boot
+nssm set MonetariumWallet Start SERVICE_AUTO_START
+
 # Start the service
 nssm start MonetariumWallet
 
@@ -449,6 +494,12 @@ nssm stop MonetariumWallet
 # Remove service
 nssm remove MonetariumWallet confirm
 ```
+
+> **Note**: NSSM may report `SERVICE_PAUSED` status for the wallet service. This is cosmetic and does not indicate a problem. Verify the wallet is working by running:
+> ```powershell
+> C:\monetarium\ctl.exe --wallet getbalance
+> ```
+> If this returns your balance, the wallet service is functioning correctly.
 
 #### Using Task Scheduler (Alternative)
 
@@ -868,6 +919,28 @@ Some antivirus software may flag or quarantine Monetarium binaries.
 **Solution**:
 1. Add `C:\monetarium\` to your antivirus exclusion list
 2. Windows Defender: **Settings → Virus & threat protection → Manage settings → Exclusions**
+
+#### Service running but certificate/connection errors
+
+**Cause**: The service is running as the SYSTEM account instead of your user account, so it's using a different data directory.
+
+**Symptoms**:
+- Service shows as "Running" but `ctl.exe` commands fail with certificate errors
+- Log files in `%LOCALAPPDATA%\Dcrd\logs\` are not updating
+- Wallet service shows `SERVICE_PAUSED` in NSSM
+
+**Solution**:
+Configure the service to run as your user account:
+
+```powershell
+# For node service
+sc.exe config monetariumsvc obj= ".\YourUsername" password= "YourPassword"
+
+# For wallet service (if using NSSM)
+nssm set MonetariumWallet ObjectName ".\YourUsername" "YourPassword"
+```
+
+Then restart the service. See [Running as Background Service](#running-as-background-service) for detailed instructions.
 
 ### Log File Locations
 

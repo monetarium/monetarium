@@ -153,14 +153,14 @@ The node (`node`) connects to the Monetarium network and maintains a copy of the
 ```
 
 On first run, node will:
-- Create configuration directory at `~/.dcrd/`
-- Generate RPC credentials in `~/.dcrd/dcrd.conf`
+- Create configuration directory at `~/Library/"Application Support"/Dcrd/`
+- Generate RPC credentials in `~/Library/"Application Support"/Dcrd/dcrd.conf`
 - Create TLS certificates for secure RPC communication
 - Begin syncing the blockchain
 
 ### Configuration File
 
-The main configuration file is located at `~/.dcrd/dcrd.conf`. Key options:
+The main configuration file is located at `~/Library/"Application Support"/Dcrd/dcrd.conf`. Key options:
 
 ```ini
 ; RPC credentials (auto-generated on first run)
@@ -181,10 +181,10 @@ listen=1
 
 | Path | Contents |
 |------|----------|
-| `~/.dcrd/dcrd.conf` | Configuration file |
-| `~/.dcrd/data/mainnet/` | Blockchain database |
-| `~/.dcrd/logs/mainnet/` | Log files |
-| `~/.dcrd/rpc.cert` | TLS certificate |
+| `~/Library/"Application Support"/Dcrd/dcrd.conf` | Configuration file |
+| `~/Library/"Application Support"/Dcrd/data/mainnet/` | Blockchain database |
+| `~/Library/"Application Support"/Dcrd/logs/mainnet/` | Log files |
+| `~/Library/"Application Support"/Dcrd/rpc.cert` | TLS certificate |
 
 ---
 
@@ -200,8 +200,8 @@ The wallet (`wallet`) manages your VAR and SKA coins.
 ### Step 1: Copy RPC Certificate
 
 ```bash
-mkdir -p ~/.dcrwallet
-cp ~/.dcrd/rpc.cert ~/.dcrwallet/
+mkdir -p ~/Library/"Application Support"/Dcrwallet
+cp ~/Library/"Application Support"/Dcrd/rpc.cert ~/Library/"Application Support"/Dcrwallet/
 ```
 
 ### Step 2: Create Wallet
@@ -226,7 +226,7 @@ You will be prompted to:
 
 ### Configuration File
 
-The wallet configuration is at `~/.dcrwallet/dcrwallet.conf`:
+The wallet configuration is at `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
 
 ```ini
 ; Connect to local dcrd
@@ -237,16 +237,17 @@ username=your_rpc_user
 password=your_rpc_password
 
 ; Path to dcrd's certificate
-cafile=~/.dcrwallet/rpc.cert
+; If tilde doesn't work, replace with /Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/rpc.cert
+cafile=~/Library/Application Support/Dcrwallet/rpc.cert
 ```
 
 ### Data Directories
 
 | Path | Contents |
 |------|----------|
-| `~/.dcrwallet/dcrwallet.conf` | Configuration file |
-| `~/.dcrwallet/mainnet/wallet.db` | Wallet database |
-| `~/.dcrwallet/logs/mainnet/` | Log files |
+| `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf` | Configuration file |
+| `~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db` | Wallet database |
+| `~/Library/"Application Support"/Dcrwallet/logs/mainnet/` | Log files |
 
 ---
 
@@ -256,13 +257,18 @@ cafile=~/.dcrwallet/rpc.cert
 
 ### Basic Setup
 
-Create a configuration file at `~/.dcrctl/dcrctl.conf`:
+Create a configuration file at `~/Library/"Application Support"/Dcrctl/dcrctl.conf`:
+
+```bash
+mkdir -p ~/Library/"Application Support"/Dcrctl
+```
 
 ```ini
 rpcuser=your_rpc_user
 rpcpass=your_rpc_password
 rpcserver=127.0.0.1:9109
-rpccert=~/.dcrd/rpc.cert
+; If tilde doesn't work, replace with /Users/YOUR_USERNAME/Library/Application Support/Dcrd/rpc.cert
+rpccert=~/Library/Application Support/Dcrd/rpc.cert
 ```
 
 ### Node Commands
@@ -426,10 +432,10 @@ cat > ~/Library/LaunchAgents/com.monetarium.node.plist << 'EOF'
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/Users/YOUR_USERNAME/.dcrd/logs/launchd-stdout.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrd/logs/launchd-stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/YOUR_USERNAME/.dcrd/logs/launchd-stderr.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrd/logs/launchd-stderr.log</string>
 </dict>
 </plist>
 EOF
@@ -469,10 +475,10 @@ cat > ~/Library/LaunchAgents/com.monetarium.wallet.plist << 'EOF'
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/Users/YOUR_USERNAME/.dcrwallet/logs/launchd-stdout.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/logs/launchd-stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/YOUR_USERNAME/.dcrwallet/logs/launchd-stderr.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/logs/launchd-stderr.log</string>
 </dict>
 </plist>
 EOF
@@ -499,8 +505,8 @@ launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 launchctl list | grep monetarium
 
 # View logs
-tail -f ~/.dcrd/logs/launchd-stdout.log
-tail -f ~/.dcrwallet/logs/launchd-stdout.log
+tail -f ~/Library/"Application Support"/Dcrd/logs/launchd-stdout.log
+tail -f ~/Library/"Application Support"/Dcrwallet/logs/launchd-stdout.log
 ```
 
 ### Disable Auto-Start
@@ -534,7 +540,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 
 #### Method 2: Configuration File
 
-Add to `~/.dcrd/dcrd.conf`:
+Add to `~/Library/"Application Support"/Dcrd/dcrd.conf`:
 
 ```ini
 addpeer=176.113.164.216:9108
@@ -580,7 +586,7 @@ For convenience, also backup the wallet database:
 launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
 # Copy wallet file
-cp ~/.dcrwallet/mainnet/wallet.db ~/backup/wallet.db.backup
+cp ~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db ~/backup/wallet.db.backup
 
 # Restart dcrwallet
 launchctl load ~/Library/LaunchAgents/com.monetarium.wallet.plist
@@ -608,7 +614,7 @@ When prompted:
 launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
 # Restore wallet file
-cp ~/backup/wallet.db.backup ~/.dcrwallet/mainnet/wallet.db
+cp ~/backup/wallet.db.backup ~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db
 
 # Start wallet
 ~/monetarium/wallet
@@ -630,7 +636,7 @@ This shows the total number of CPU cores available.
 
 ### Enable Mining in Configuration
 
-Add these options to `~/.dcrd/dcrd.conf`:
+Add these options to `~/Library/"Application Support"/Dcrd/dcrd.conf`:
 
 ```ini
 ; Enable CPU mining
@@ -709,7 +715,7 @@ Staking allows you to earn rewards by participating in Monetarium's proof-of-sta
 
 ### Enable Staking in Wallet Configuration
 
-Add these options to `~/.dcrwallet/dcrwallet.conf`:
+Add these options to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
 
 ```ini
 ; Enable automatic voting on tickets
@@ -733,7 +739,7 @@ accountgaplimit=10
 
 ### Wallet Passphrase for Auto-Unlock
 
-For automated staking, the wallet needs to unlock automatically. Add to `~/.dcrwallet/dcrwallet.conf`:
+For automated staking, the wallet needs to unlock automatically. Add to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
 
 ```ini
 ; WARNING: Reduces security - only use on dedicated staking machines
@@ -869,8 +875,8 @@ pgrep -l node
 pgrep node
 
 # Verify RPC credentials match in:
-# ~/.dcrd/dcrd.conf
-# ~/.dcrctl/dcrctl.conf
+# ~/Library/"Application Support"/Dcrd/dcrd.conf
+# ~/Library/"Application Support"/Dcrctl/dcrctl.conf
 ```
 
 #### Wallet won't start - "unable to open database"
@@ -915,22 +921,22 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps
 
 | Service | Log Path |
 |---------|----------|
-| node | `~/.dcrd/logs/mainnet/dcrd.log` |
-| wallet | `~/.dcrwallet/logs/mainnet/dcrwallet.log` |
-| launchd (node) | `~/.dcrd/logs/launchd-stdout.log` |
-| launchd (wallet) | `~/.dcrwallet/logs/launchd-stdout.log` |
+| node | `~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log` |
+| wallet | `~/Library/"Application Support"/Dcrwallet/logs/mainnet/dcrwallet.log` |
+| launchd (node) | `~/Library/"Application Support"/Dcrd/logs/launchd-stdout.log` |
+| launchd (wallet) | `~/Library/"Application Support"/Dcrwallet/logs/launchd-stdout.log` |
 
 ### View Logs
 
 ```bash
 # View dcrd log (last 100 lines)
-tail -100 ~/.dcrd/logs/mainnet/dcrd.log
+tail -100 ~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log
 
 # Follow dcrd log in real-time
-tail -f ~/.dcrd/logs/mainnet/dcrd.log
+tail -f ~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log
 
 # View wallet log
-tail -f ~/.dcrwallet/logs/mainnet/dcrwallet.log
+tail -f ~/Library/"Application Support"/Dcrwallet/logs/mainnet/dcrwallet.log
 ```
 
 ---
@@ -999,9 +1005,9 @@ sysctl -n hw.ncpu
 | Path | Description |
 |------|-------------|
 | `~/monetarium/` | Binary installation |
-| `~/.dcrd/` | Node data & config |
-| `~/.dcrwallet/` | Wallet data & config |
-| `~/.dcrctl/` | CLI config |
+| `~/Library/"Application Support"/Dcrd/` | Node data & config |
+| `~/Library/"Application Support"/Dcrwallet/` | Wallet data & config |
+| `~/Library/"Application Support"/Dcrctl/` | CLI config |
 
 ---
 
