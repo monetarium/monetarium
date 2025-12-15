@@ -66,21 +66,21 @@ Visit the release pages:
 Download the following files for your architecture:
 
 **For Intel Macs (amd64):**
-- `dcrd-darwin-amd64`
-- `dcrwallet-darwin-amd64`
-- `dcrctl-darwin-amd64`
+- `node-darwin-amd64`
+- `wallet-darwin-amd64`
+- `ctl-darwin-amd64`
 
 **For Apple Silicon (arm64):**
-- `dcrd-darwin-arm64`
-- `dcrwallet-darwin-arm64`
-- `dcrctl-darwin-arm64`
+- `node-darwin-arm64`
+- `wallet-darwin-arm64`
+- `ctl-darwin-arm64`
 
 ### Step 3: Verify Downloads (Optional)
 
 If SHA256 checksums are provided, verify your downloads:
 
 ```bash
-shasum -a 256 dcrd-darwin-*
+shasum -a 256 node-darwin-*
 ```
 
 Compare the output with the checksums on the releases page.
@@ -101,9 +101,9 @@ cd ~/monetarium
 Move the downloaded files to your installation directory:
 
 ```bash
-mv ~/Downloads/dcrd-darwin-* ~/monetarium/node
-mv ~/Downloads/dcrwallet-darwin-* ~/monetarium/wallet
-mv ~/Downloads/dcrctl-darwin-* ~/monetarium/ctl
+mv ~/Downloads/node-darwin-* ~/monetarium/node
+mv ~/Downloads/wallet-darwin-* ~/monetarium/wallet
+mv ~/Downloads/ctl-darwin-* ~/monetarium/ctl
 ```
 
 ### Step 3: Make Binaries Executable
