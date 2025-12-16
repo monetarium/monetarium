@@ -155,9 +155,6 @@ rpcpass=your_rpc_password
 ; Add persistent peers
 addpeer=176.113.164.216:9108
 
-; Listen for incoming connections (default: true)
-listen=1
-
 ; External IP (if behind NAT, set your public IP)
 ; externalip=your.public.ip.address
 ```
@@ -240,7 +237,6 @@ mkdir -p ~/.dcrctl
 ```ini
 rpcuser=your_rpc_user
 rpcpass=your_rpc_password
-rpcserver=127.0.0.1:9109
 ```
 
 ### Node Commands
@@ -647,11 +643,6 @@ generate=1
 
 ; Mining address for block rewards (must be a VAR address starting with 'Ms')
 miningaddr=MsYourAddressHere...
-
-; Number of CPU threads for mining
-; Recommendation: Use half your threads to avoid system slowdown
-; Example: 8-thread CPU → use 4 threads
-miningthreads=4
 ```
 
 ### Mining Address
@@ -684,6 +675,21 @@ sudo systemctl restart monetarium-node
 
 # Or manually
 ~/monetarium/node --addpeer=176.113.164.216:9108
+```
+
+### Control Mining Threads
+
+Use `setgenerate` RPC command to enable mining and set thread count:
+
+```bash
+# Enable mining with 4 threads
+~/monetarium/ctl setgenerate true 4
+
+# Enable mining with 1 thread (default)
+~/monetarium/ctl setgenerate true
+
+# Disable mining
+~/monetarium/ctl setgenerate false
 ```
 
 ### Monitor Mining

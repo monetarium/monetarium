@@ -145,9 +145,6 @@ rpcpass=your_rpc_password
 ; Add persistent peers
 addpeer=176.113.164.216:9108
 
-; Listen for incoming connections (default: true)
-listen=1
-
 ; External IP (if behind NAT, set your public IP)
 ; externalip=your.public.ip.address
 ```
@@ -630,11 +627,6 @@ generate=1
 
 ; Mining address for block rewards (must be a VAR address starting with 'Ms')
 miningaddr=MsYourAddressHere...
-
-; Number of CPU threads for mining
-; Recommendation: Use half your threads to avoid system slowdown
-; Example: 8-thread CPU → use 4 threads
-miningthreads=4
 ```
 
 ### Mining Address
@@ -668,6 +660,21 @@ C:\monetarium\node.exe --service start
 
 # Or manually (stop with Ctrl+C first)
 C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+```
+
+### Control Mining Threads
+
+Use `setgenerate` RPC command to enable mining and set thread count:
+
+```powershell
+# Enable mining with 4 threads
+C:\monetarium\ctl.exe setgenerate true 4
+
+# Enable mining with 1 thread (default)
+C:\monetarium\ctl.exe setgenerate true
+
+# Disable mining
+C:\monetarium\ctl.exe setgenerate false
 ```
 
 ### Monitor Mining
