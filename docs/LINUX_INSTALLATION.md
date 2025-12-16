@@ -180,16 +180,9 @@ The wallet (`wallet`) manages your VAR and SKA coins.
 ### Prerequisites
 
 - The node (`node`) must be running
-- Copy the RPC certificate from node
-
-### Step 1: Copy RPC Certificate
-
-```bash
-mkdir -p ~/.dcrwallet
-cp ~/.dcrd/rpc.cert ~/.dcrwallet/
 ```
 
-### Step 2: Create Wallet
+### Step 1: Create Wallet
 
 ```bash
 ~/monetarium/wallet --create
@@ -203,7 +196,7 @@ You will be prompted to:
 
 > **WARNING**: Your seed phrase is the ONLY way to recover your wallet. Store it offline in a secure location. Never share it with anyone.
 
-### Step 3: Start the Wallet
+### Step 2: Start the Wallet
 
 ```bash
 ~/monetarium/wallet
@@ -220,9 +213,6 @@ rpcconnect=127.0.0.1:9109
 ; Use dcrd's RPC credentials
 username=your_rpc_user
 password=your_rpc_password
-
-; Path to dcrd's certificate
-cafile=~/.dcrwallet/rpc.cert
 ```
 
 ### Data Directories
@@ -251,7 +241,6 @@ mkdir -p ~/.dcrctl
 rpcuser=your_rpc_user
 rpcpass=your_rpc_password
 rpcserver=127.0.0.1:9109
-rpccert=~/.dcrd/rpc.cert
 ```
 
 ### Node Commands
@@ -481,6 +470,10 @@ EOF
 
 sudo sed -i "s/YOUR_USERNAME/$USER/g" /etc/systemd/system/monetarium-wallet.service
 ```
+
+> **Important**: When running the wallet as a service, it starts in a locked state and cannot sign transactions or vote on tickets. To enable full functionality, you must either:
+> 1. Add `pass=YourWalletPassphrase` to `~/.dcrwallet/dcrwallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
+> 2. Manually unlock the wallet after the service starts using: `~/monetarium/ctl --wallet walletpassphrase "YourPassphrase" 0`
 
 ### Service Management
 

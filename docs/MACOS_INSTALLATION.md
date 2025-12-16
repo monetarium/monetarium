@@ -195,16 +195,8 @@ The wallet (`wallet`) manages your VAR and SKA coins.
 ### Prerequisites
 
 - The node (`node`) must be running
-- Copy the RPC certificate from node
 
-### Step 1: Copy RPC Certificate
-
-```bash
-mkdir -p ~/Library/"Application Support"/Dcrwallet
-cp ~/Library/"Application Support"/Dcrd/rpc.cert ~/Library/"Application Support"/Dcrwallet/
-```
-
-### Step 2: Create Wallet
+### Step 1: Create Wallet
 
 ```bash
 ~/monetarium/wallet --create
@@ -218,7 +210,7 @@ You will be prompted to:
 
 > **WARNING**: Your seed phrase is the ONLY way to recover your wallet. Store it offline in a secure location. Never share it with anyone.
 
-### Step 3: Start the Wallet
+### Step 2: Start the Wallet
 
 ```bash
 ~/monetarium/wallet
@@ -235,10 +227,6 @@ rpcconnect=127.0.0.1:9109
 ; Use dcrd's RPC credentials
 username=your_rpc_user
 password=your_rpc_password
-
-; Path to dcrd's certificate
-; If tilde doesn't work, replace with /Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/rpc.cert
-cafile=~/Library/Application Support/Dcrwallet/rpc.cert
 ```
 
 ### Data Directories
@@ -266,9 +254,6 @@ mkdir -p ~/Library/"Application Support"/Dcrctl
 ```ini
 rpcuser=your_rpc_user
 rpcpass=your_rpc_password
-rpcserver=127.0.0.1:9109
-; If tilde doesn't work, replace with /Users/YOUR_USERNAME/Library/Application Support/Dcrd/rpc.cert
-rpccert=~/Library/Application Support/Dcrd/rpc.cert
 ```
 
 ### Node Commands
@@ -403,6 +388,8 @@ Or use an online port checker at https://www.yougetsignal.com/tools/open-ports/
 
 Use macOS `launchd` to run Monetarium services automatically.
 
+First make sure `~/Library/LaunchAgents` exists or create it if needed `mkdir -p ~/Library/LaunchAgents`.
+
 ### node Service
 
 Create the plist file:
@@ -485,6 +472,10 @@ EOF
 
 sed -i '' "s/YOUR_USERNAME/$USER/g" ~/Library/LaunchAgents/com.monetarium.wallet.plist
 ```
+
+> **Important**: When running the wallet as a service, it starts in a locked state and cannot sign transactions or vote on tickets. To enable full functionality, you must either:
+> 1. Add `pass=YourWalletPassphrase` to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
+> 2. Manually unlock the wallet after the service starts using: `~/monetarium/ctl --wallet walletpassphrase "YourPassphrase" 0`
 
 ### Service Management
 

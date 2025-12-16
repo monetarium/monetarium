@@ -172,16 +172,8 @@ The wallet (`wallet.exe`) manages your VAR and SKA coins.
 ### Prerequisites
 
 - The node (`node.exe`) must be running
-- Copy the RPC certificate from node
 
-### Step 1: Copy RPC Certificate
-
-```powershell
-New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\Dcrwallet" -Force
-Copy-Item "$env:LOCALAPPDATA\Dcrd\rpc.cert" "$env:LOCALAPPDATA\Dcrwallet\"
-```
-
-### Step 2: Create Wallet
+### Step 1: Create Wallet
 
 ```powershell
 C:\monetarium\wallet.exe --create
@@ -195,7 +187,7 @@ You will be prompted to:
 
 > **WARNING**: Your seed phrase is the ONLY way to recover your wallet. Store it offline in a secure location. Never share it with anyone.
 
-### Step 3: Start the Wallet
+### Step 2: Start the Wallet
 
 ```powershell
 C:\monetarium\wallet.exe
@@ -212,9 +204,6 @@ rpcconnect=127.0.0.1:9109
 ; Use node's RPC credentials
 username=your_rpc_user
 password=your_rpc_password
-
-; Path to node's certificate
-cafile=%LOCALAPPDATA%\Dcrwallet\rpc.cert
 ```
 
 ### Data Directories
@@ -238,8 +227,6 @@ Create a configuration file at `%LOCALAPPDATA%\Dcrctl\dcrctl.conf`:
 ```ini
 rpcuser=your_rpc_user
 rpcpass=your_rpc_password
-rpcserver=127.0.0.1:9109
-rpccert=%LOCALAPPDATA%\Dcrd\rpc.cert
 ```
 
 Create the directory and file:
@@ -500,6 +487,10 @@ nssm remove MonetariumWallet confirm
 > C:\monetarium\ctl.exe --wallet getbalance
 > ```
 > If this returns your balance, the wallet service is functioning correctly.
+
+> **Important**: When running the wallet as a service, it starts in a locked state and cannot sign transactions or vote on tickets. To enable full functionality, you must either:
+> 1. Add `pass=YourWalletPassphrase` to `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
+> 2. Manually unlock the wallet after the service starts using: `C:\monetarium\ctl.exe --wallet walletpassphrase "YourPassphrase" 0`
 
 #### Using Task Scheduler (Alternative)
 
