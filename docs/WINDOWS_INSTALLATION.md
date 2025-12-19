@@ -452,7 +452,7 @@ pass=YourWalletPassphrase
 
 #### Using NSSM
 
-Download [NSSM](https://nssm.cc/) (Non-Sucking Service Manager) and run as Administrator:
+Download [NSSM](https://nssm.cc/) (Non-Sucking Service Manager), put `nssm.exe` in the same directory as `wallet.exe` and run as Administrator:
 
 ```powershell
 # Install wallet as service
