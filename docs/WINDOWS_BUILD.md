@@ -82,10 +82,10 @@ The repository should contain the following directories:
 
 ```
 monetarium/
-├── dcrd/        # Node source code
-├── dcrwallet/   # Wallet source code
-├── dcrctl/      # CLI tool source code
-└── docs/        # Documentation
+├── monetarium-node/    # Node source code (github.com/monetarium/monetarium-node)
+├── monetarium-wallet/  # Wallet source code (github.com/monetarium/monetarium-wallet)
+├── monetarium-ctl/     # CLI tool source code (github.com/monetarium/monetarium-ctl)
+└── docs/               # Documentation
 ```
 
 Verify with:
@@ -98,12 +98,12 @@ Get-ChildItem -Directory
 
 ## Building the Node
 
-The node (`node.exe`) must be built first, as other components depend on its modules.
+The node (`monetarium-node.exe`) must be built first, as other components depend on its modules.
 
-### Step 1: Navigate to dcrd Directory
+### Step 1: Navigate to Node Directory
 
 ```powershell
-cd C:\monetarium\dcrd
+cd C:\monetarium\monetarium-node
 ```
 
 ### Step 2: Download Dependencies
@@ -115,13 +115,13 @@ go mod download
 ### Step 3: Build
 
 ```powershell
-go build -o ..\node.exe .
+go build -o ..\monetarium-node.exe .
 ```
 
 ### Step 4: Verify Build
 
 ```powershell
-..\node.exe --version
+..\monetarium-node.exe --version
 ```
 
 ### Build with Optimizations (Release Build)
@@ -129,7 +129,7 @@ go build -o ..\node.exe .
 For production builds with smaller binary size:
 
 ```powershell
-go build -ldflags="-s -w" -o ..\node.exe .
+go build -ldflags="-s -w" -o ..\monetarium-node.exe .
 ```
 
 Flags explained:
@@ -140,12 +140,12 @@ Flags explained:
 
 ## Building the Wallet
 
-The wallet (`wallet.exe`) depends on dcrd modules via local `replace` directives.
+The wallet (`monetarium-wallet.exe`) depends on node modules via local `replace` directives.
 
-### Step 1: Navigate to dcrwallet Directory
+### Step 1: Navigate to Wallet Directory
 
 ```powershell
-cd C:\monetarium\dcrwallet
+cd C:\monetarium\monetarium-wallet
 ```
 
 ### Step 2: Download Dependencies
@@ -157,31 +157,31 @@ go mod download
 ### Step 3: Build
 
 ```powershell
-go build -o ..\wallet.exe .
+go build -o ..\monetarium-wallet.exe .
 ```
 
 ### Step 4: Verify Build
 
 ```powershell
-..\wallet.exe --version
+..\monetarium-wallet.exe --version
 ```
 
 ### Build with Optimizations
 
 ```powershell
-go build -ldflags="-s -w" -o ..\wallet.exe .
+go build -ldflags="-s -w" -o ..\monetarium-wallet.exe .
 ```
 
 ---
 
-## Building ctl
+## Building monetarium-ctl
 
-The CLI tool (`ctl.exe`) depends on both dcrd and dcrwallet modules.
+The CLI tool (`monetarium-ctl.exe`) depends on both node and wallet modules.
 
-### Step 1: Navigate to dcrctl Directory
+### Step 1: Navigate to CTL Directory
 
 ```powershell
-cd C:\monetarium\dcrctl
+cd C:\monetarium\monetarium-ctl
 ```
 
 ### Step 2: Download Dependencies
@@ -193,19 +193,19 @@ go mod download
 ### Step 3: Build
 
 ```powershell
-go build -o ..\ctl.exe .
+go build -o ..\monetarium-ctl.exe .
 ```
 
 ### Step 4: Verify Build
 
 ```powershell
-..\ctl.exe --version
+..\monetarium-ctl.exe --version
 ```
 
 ### Build with Optimizations
 
 ```powershell
-go build -ldflags="-s -w" -o ..\ctl.exe .
+go build -ldflags="-s -w" -o ..\monetarium-ctl.exe .
 ```
 
 ---
@@ -218,23 +218,23 @@ Use this PowerShell script to build all binaries in the correct order:
 # Navigate to monetarium root
 cd C:\monetarium
 
-# Build node
-Write-Host "Building node..." -ForegroundColor Cyan
-Set-Location dcrd
-go build -ldflags="-s -w" -o ..\node.exe .
-if ($LASTEXITCODE -ne 0) { Write-Host "node build failed!" -ForegroundColor Red; exit 1 }
+# Build monetarium-node
+Write-Host "Building monetarium-node..." -ForegroundColor Cyan
+Set-Location monetarium-node
+go build -ldflags="-s -w" -o ..\monetarium-node.exe .
+if ($LASTEXITCODE -ne 0) { Write-Host "monetarium-node build failed!" -ForegroundColor Red; exit 1 }
 
-# Build wallet
-Write-Host "Building wallet..." -ForegroundColor Cyan
-Set-Location ..\dcrwallet
-go build -ldflags="-s -w" -o ..\wallet.exe .
-if ($LASTEXITCODE -ne 0) { Write-Host "wallet build failed!" -ForegroundColor Red; exit 1 }
+# Build monetarium-wallet
+Write-Host "Building monetarium-wallet..." -ForegroundColor Cyan
+Set-Location ..\monetarium-wallet
+go build -ldflags="-s -w" -o ..\monetarium-wallet.exe .
+if ($LASTEXITCODE -ne 0) { Write-Host "monetarium-wallet build failed!" -ForegroundColor Red; exit 1 }
 
-# Build ctl
-Write-Host "Building ctl..." -ForegroundColor Cyan
-Set-Location ..\dcrctl
-go build -ldflags="-s -w" -o ..\ctl.exe .
-if ($LASTEXITCODE -ne 0) { Write-Host "ctl build failed!" -ForegroundColor Red; exit 1 }
+# Build monetarium-ctl
+Write-Host "Building monetarium-ctl..." -ForegroundColor Cyan
+Set-Location ..\monetarium-ctl
+go build -ldflags="-s -w" -o ..\monetarium-ctl.exe .
+if ($LASTEXITCODE -ne 0) { Write-Host "monetarium-ctl build failed!" -ForegroundColor Red; exit 1 }
 
 # Return to root and verify
 Set-Location ..
@@ -255,7 +255,7 @@ Save as `build.ps1` and run with:
 ### Test Node
 
 ```powershell
-cd C:\monetarium\dcrd
+cd C:\monetarium\monetarium-node
 go test ./...
 ```
 
@@ -268,14 +268,14 @@ Or run the test script if available:
 ### Test Wallet
 
 ```powershell
-cd C:\monetarium\dcrwallet
+cd C:\monetarium\monetarium-wallet
 go test ./...
 ```
 
-### Test ctl
+### Test monetarium-ctl
 
 ```powershell
-cd C:\monetarium\dcrctl
+cd C:\monetarium\monetarium-ctl
 go test ./...
 ```
 
@@ -300,33 +300,33 @@ Build Windows binaries from Linux or macOS.
 ### From Linux/macOS to Windows
 
 ```bash
-# Build node for Windows
-cd dcrd
-GOOS=windows GOARCH=amd64 go build -o ../node.exe .
+# Build monetarium-node for Windows
+cd monetarium-node
+GOOS=windows GOARCH=amd64 go build -o ../monetarium-node.exe .
 
-# Build wallet for Windows
-cd ../dcrwallet
-GOOS=windows GOARCH=amd64 go build -o ../wallet.exe .
+# Build monetarium-wallet for Windows
+cd ../monetarium-wallet
+GOOS=windows GOARCH=amd64 go build -o ../monetarium-wallet.exe .
 
-# Build ctl for Windows
-cd ../dcrctl
-GOOS=windows GOARCH=amd64 go build -o ../ctl.exe .
+# Build monetarium-ctl for Windows
+cd ../monetarium-ctl
+GOOS=windows GOARCH=amd64 go build -o ../monetarium-ctl.exe .
 ```
 
 ### Build for Multiple Platforms
 
 ```bash
 # Build for Windows AMD64
-GOOS=windows GOARCH=amd64 go build -o node-windows-amd64.exe .
+GOOS=windows GOARCH=amd64 go build -o monetarium-node-windows-amd64.exe .
 
 # Build for Linux AMD64
-GOOS=linux GOARCH=amd64 go build -o node-linux-amd64 .
+GOOS=linux GOARCH=amd64 go build -o monetarium-node-linux-amd64 .
 
 # Build for macOS AMD64 (Intel)
-GOOS=darwin GOARCH=amd64 go build -o node-darwin-amd64 .
+GOOS=darwin GOARCH=amd64 go build -o monetarium-node-darwin-amd64 .
 
 # Build for macOS ARM64 (Apple Silicon)
-GOOS=darwin GOARCH=arm64 go build -o node-darwin-arm64 .
+GOOS=darwin GOARCH=arm64 go build -o monetarium-node-darwin-arm64 .
 ```
 
 ---
@@ -354,7 +354,7 @@ GOOS=darwin GOARCH=arm64 go build -o node-darwin-arm64 .
 **Solution B**: Disable CGO if not needed:
 ```powershell
 $env:CGO_ENABLED = "0"
-go build -o ..\node.exe .
+go build -o ..\monetarium-node.exe .
 ```
 
 ### Module dependency errors
@@ -364,12 +364,12 @@ go build -o ..\node.exe .
 **Solution**: Ensure you're building from the correct directory structure:
 ```
 monetarium/
-├── dcrd/
-├── dcrwallet/
-└── dcrctl/
+├── monetarium-node/
+├── monetarium-wallet/
+└── monetarium-ctl/
 ```
 
-The `go.mod` files use relative paths like `replace => ../dcrd/...`
+The `go.mod` files use relative paths like `replace => ../monetarium-node/...`
 
 ### "Access denied" or permission errors
 
@@ -397,7 +397,7 @@ The `go.mod` files use relative paths like `replace => ../dcrd/...`
 **Cause**: Module mode not enabled or wrong directory.
 
 **Solution**:
-1. Ensure you're in the correct directory (e.g., `dcrd/`)
+1. Ensure you're in the correct directory (e.g., `monetarium-node/`)
 2. Verify `go.mod` exists in the directory
 3. Enable module mode:
    ```powershell
@@ -412,9 +412,9 @@ The `go.mod` files use relative paths like `replace => ../dcrd/...`
 
 | Component | Directory | Build Command |
 |-----------|-----------|---------------|
-| Node | `dcrd/` | `go build -o ..\node.exe .` |
-| Wallet | `dcrwallet/` | `go build -o ..\wallet.exe .` |
-| ctl | `dcrctl/` | `go build -o ..\ctl.exe .` |
+| Node | `monetarium-node/` | `go build -o ..\monetarium-node.exe .` |
+| Wallet | `monetarium-wallet/` | `go build -o ..\monetarium-wallet.exe .` |
+| ctl | `monetarium-ctl/` | `go build -o ..\monetarium-ctl.exe .` |
 
 ### Environment Variables
 

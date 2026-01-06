@@ -25,8 +25,8 @@ This guide provides step-by-step instructions for installing and running a Monet
 
 Monetarium is a multi-coin blockchain system featuring VAR (Varta) and SKA (Skarb) coins. This guide covers:
 
-- Installing the Monetarium node (`dcrd`) to participate in the network
-- Setting up the wallet (`dcrwallet`) to manage your coins
+- Installing the Monetarium node (`monetarium`) to participate in the network
+- Setting up the wallet (`monetarium-wallet`) to manage your coins
 - Configuring your network for optimal connectivity
 
 ---
@@ -59,28 +59,28 @@ uname -m
 ### Step 2: Download from GitHub
 
 Visit the release pages:
-- [node](https://github.com/monetarium/monetarium/releases)
-- [wallet](https://github.com/monetarium/monetarium/releases)
-- [ctl](https://github.com/monetarium/monetarium/releases)
+- [node](https://github.com/monetarium/monetarium-node/releases)
+- [wallet](https://github.com/monetarium/monetarium-wallet/releases)
+- [ctl](https://github.com/monetarium/monetarium-ctl/releases)
 
 Download the following files for your architecture:
 
 **For Intel Macs (amd64):**
-- `node-darwin-amd64`
-- `wallet-darwin-amd64`
-- `ctl-darwin-amd64`
+- `monetarium-node-darwin-amd64`
+- `monetarium-wallet-darwin-amd64`
+- `monetarium-ctl-darwin-amd64`
 
 **For Apple Silicon (arm64):**
-- `node-darwin-arm64`
-- `wallet-darwin-arm64`
-- `ctl-darwin-arm64`
+- `monetarium-node-darwin-arm64`
+- `monetarium-wallet-darwin-arm64`
+- `monetarium-ctl-darwin-arm64`
 
 ### Step 3: Verify Downloads (Optional)
 
 If SHA256 checksums are provided, verify your downloads:
 
 ```bash
-shasum -a 256 node-darwin-*
+shasum -a 256 monetarium-*-darwin-*
 ```
 
 Compare the output with the checksums on the releases page.
@@ -101,17 +101,17 @@ cd ~/monetarium
 Move the downloaded files to your installation directory:
 
 ```bash
-mv ~/Downloads/node-darwin-* ~/monetarium/node
-mv ~/Downloads/wallet-darwin-* ~/monetarium/wallet
-mv ~/Downloads/ctl-darwin-* ~/monetarium/ctl
+mv ~/Downloads/monetarium-node-darwin-* ~/monetarium/monetarium-node
+mv ~/Downloads/monetarium-wallet-darwin-* ~/monetarium/monetarium-wallet
+mv ~/Downloads/monetarium-ctl-darwin-* ~/monetarium/monetarium-ctl
 ```
 
 ### Step 3: Make Binaries Executable
 
 ```bash
-chmod +x ~/monetarium/node
-chmod +x ~/monetarium/wallet
-chmod +x ~/monetarium/ctl
+chmod +x ~/monetarium/monetarium-node
+chmod +x ~/monetarium/monetarium-wallet
+chmod +x ~/monetarium/monetarium-ctl
 ```
 
 ### Step 4: Add to PATH (Optional)
@@ -127,40 +127,40 @@ source ~/.zshrc
 
 On first run, macOS may block the binaries. To allow them:
 
-1. Try running the binary: `~/monetarium/node`
+1. Try running the binary: `~/monetarium/monetarium-node`
 2. If blocked, go to **System Preferences → Security & Privacy → General**
 3. Click **"Allow Anyway"** next to the blocked app message
-4. Repeat for each binary (`node`, `wallet`, `ctl`)
+4. Repeat for each binary (`monetarium-node`, `monetarium-wallet`, `monetarium-ctl`)
 
 Alternatively, remove the quarantine attribute:
 
 ```bash
-xattr -d com.apple.quarantine ~/monetarium/node
-xattr -d com.apple.quarantine ~/monetarium/wallet
-xattr -d com.apple.quarantine ~/monetarium/ctl
+xattr -d com.apple.quarantine ~/monetarium/monetarium-node
+xattr -d com.apple.quarantine ~/monetarium/monetarium-wallet
+xattr -d com.apple.quarantine ~/monetarium/monetarium-ctl
 ```
 
 ---
 
-## Running the Node (node)
+## Running the Node (monetarium-node)
 
-The node (`node`) connects to the Monetarium network and maintains a copy of the blockchain.
+The node (`monetarium-node`) connects to the Monetarium network and maintains a copy of the blockchain.
 
 ### First Run
 
 ```bash
-~/monetarium/node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
 ```
 
-On first run, node will:
-- Create configuration directory at `~/Library/"Application Support"/Dcrd/`
-- Generate RPC credentials in `~/Library/"Application Support"/Dcrd/dcrd.conf`
+On first run, monetarium-node will:
+- Create configuration directory at `~/Library/"Application Support"/Monetarium/`
+- Generate RPC credentials in `~/Library/"Application Support"/Monetarium/monetarium.conf`
 - Create TLS certificates for secure RPC communication
 - Begin syncing the blockchain
 
 ### Configuration File
 
-The main configuration file is located at `~/Library/"Application Support"/Dcrd/dcrd.conf`. Key options:
+The main configuration file is located at `~/Library/"Application Support"/Monetarium/monetarium.conf`. Key options:
 
 ```ini
 ; RPC credentials (auto-generated on first run)
@@ -178,25 +178,25 @@ addpeer=176.113.164.216:9108
 
 | Path | Contents |
 |------|----------|
-| `~/Library/"Application Support"/Dcrd/dcrd.conf` | Configuration file |
-| `~/Library/"Application Support"/Dcrd/data/mainnet/` | Blockchain database |
-| `~/Library/"Application Support"/Dcrd/logs/mainnet/` | Log files |
-| `~/Library/"Application Support"/Dcrd/rpc.cert` | TLS certificate |
+| `~/Library/"Application Support"/Monetarium/monetarium.conf` | Configuration file |
+| `~/Library/"Application Support"/Monetarium/data/mainnet/` | Blockchain database |
+| `~/Library/"Application Support"/Monetarium/logs/mainnet/` | Log files |
+| `~/Library/"Application Support"/Monetarium/rpc.cert` | TLS certificate |
 
 ---
 
-## Running the Wallet (wallet)
+## Running the Wallet (monetarium-wallet)
 
-The wallet (`wallet`) manages your VAR and SKA coins.
+The wallet (`monetarium-wallet`) manages your VAR and SKA coins.
 
 ### Prerequisites
 
-- The node (`node`) must be running
+- The node (`monetarium-node`) must be running
 
 ### Step 1: Create Wallet
 
 ```bash
-~/monetarium/wallet --create
+~/monetarium/monetarium-wallet --create
 ```
 
 You will be prompted to:
@@ -210,18 +210,18 @@ You will be prompted to:
 ### Step 2: Start the Wallet
 
 ```bash
-~/monetarium/wallet
+~/monetarium/monetarium-wallet
 ```
 
 ### Configuration File
 
-The wallet configuration is at `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
+The wallet configuration is at `~/Library/"Application Support"/Monetarium-wallet/monetarium-wallet.conf`:
 
 ```ini
-; Connect to local dcrd
+; Connect to local node
 rpcconnect=127.0.0.1:9109
 
-; Use dcrd's RPC credentials
+; Use node's RPC credentials
 username=your_rpc_user
 password=your_rpc_password
 ```
@@ -230,22 +230,22 @@ password=your_rpc_password
 
 | Path | Contents |
 |------|----------|
-| `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf` | Configuration file |
-| `~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db` | Wallet database |
-| `~/Library/"Application Support"/Dcrwallet/logs/mainnet/` | Log files |
+| `~/Library/"Application Support"/Monetarium-wallet/monetarium-wallet.conf` | Configuration file |
+| `~/Library/"Application Support"/Monetarium-wallet/mainnet/wallet.db` | Wallet database |
+| `~/Library/"Application Support"/Monetarium-wallet/logs/mainnet/` | Log files |
 
 ---
 
-## Using ctl
+## Using monetarium-ctl
 
-`ctl` is the command-line interface for interacting with the node and wallet.
+`monetarium-ctl` is the command-line interface for interacting with the node and wallet.
 
 ### Basic Setup
 
-Create a configuration file at `~/Library/"Application Support"/Dcrctl/dcrctl.conf`:
+Create a configuration file at `~/Library/"Application Support"/Monetarium-ctl/monetarium-ctl.conf`:
 
 ```bash
-mkdir -p ~/Library/"Application Support"/Dcrctl
+mkdir -p ~/Library/"Application Support"/Monetarium-ctl
 ```
 
 ```ini
@@ -257,16 +257,16 @@ rpcpass=your_rpc_password
 
 ```bash
 # Check node sync status
-~/monetarium/ctl getblockcount
+~/monetarium/monetarium-ctl getblockcount
 
 # Get network info
-~/monetarium/ctl getnetworkinfo
+~/monetarium/monetarium-ctl getnetworkinfo
 
 # List connected peers
-~/monetarium/ctl getpeerinfo
+~/monetarium/monetarium-ctl getpeerinfo
 
 # Get blockchain info
-~/monetarium/ctl getblockchaininfo
+~/monetarium/monetarium-ctl getblockchaininfo
 ```
 
 ### Wallet Commands
@@ -275,16 +275,16 @@ Add `--wallet` flag to interact with the wallet:
 
 ```bash
 # Get wallet balance
-~/monetarium/ctl --wallet getbalance
+~/monetarium/monetarium-ctl --wallet getbalance
 
 # Generate new address
-~/monetarium/ctl --wallet getnewaddress
+~/monetarium/monetarium-ctl --wallet getnewaddress
 
 # List transactions
-~/monetarium/ctl --wallet listtransactions
+~/monetarium/monetarium-ctl --wallet listtransactions
 
 # Send coins (unlocks wallet temporarily)
-~/monetarium/ctl --wallet sendtoaddress "MsAddress..." 1.0
+~/monetarium/monetarium-ctl --wallet sendtoaddress "MsAddress..." 1.0
 ```
 
 ---
@@ -312,11 +312,11 @@ To participate fully in the network and allow incoming connections, configure yo
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
 ```
 
-#### Allow node Through Firewall
+#### Allow monetarium-node Through Firewall
 
 ```bash
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add ~/monetarium/node
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp ~/monetarium/node
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add ~/monetarium/monetarium-node
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp ~/monetarium/monetarium-node
 ```
 
 #### Verify Settings
@@ -387,7 +387,7 @@ Use macOS `launchd` to run Monetarium services automatically.
 
 First make sure `~/Library/LaunchAgents` exists or create it if needed `mkdir -p ~/Library/LaunchAgents`.
 
-### node Service
+### monetarium-node Service
 
 Create the plist file:
 
@@ -402,7 +402,7 @@ cat > ~/Library/LaunchAgents/com.monetarium.node.plist << 'EOF'
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/YOUR_USERNAME/monetarium/node</string>
+        <string>/Users/YOUR_USERNAME/monetarium/monetarium-node</string>
         <string>--addpeer=176.113.164.216:9108</string>
     </array>
 
@@ -416,10 +416,10 @@ cat > ~/Library/LaunchAgents/com.monetarium.node.plist << 'EOF'
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrd/logs/launchd-stdout.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Monetarium/logs/launchd-stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrd/logs/launchd-stderr.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Monetarium/logs/launchd-stderr.log</string>
 </dict>
 </plist>
 EOF
@@ -431,7 +431,7 @@ EOF
 sed -i '' "s/YOUR_USERNAME/$USER/g" ~/Library/LaunchAgents/com.monetarium.node.plist
 ```
 
-### wallet Service
+### monetarium-wallet Service
 
 Create the wallet service (starts after node):
 
@@ -446,7 +446,7 @@ cat > ~/Library/LaunchAgents/com.monetarium.wallet.plist << 'EOF'
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/YOUR_USERNAME/monetarium/wallet</string>
+        <string>/Users/YOUR_USERNAME/monetarium/monetarium-wallet</string>
     </array>
 
     <key>WorkingDirectory</key>
@@ -459,10 +459,10 @@ cat > ~/Library/LaunchAgents/com.monetarium.wallet.plist << 'EOF'
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/logs/launchd-stdout.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Monetarium-wallet/logs/launchd-stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/YOUR_USERNAME/Library/Application Support/Dcrwallet/logs/launchd-stderr.log</string>
+    <string>/Users/YOUR_USERNAME/Library/Application Support/Monetarium-wallet/logs/launchd-stderr.log</string>
 </dict>
 </plist>
 EOF
@@ -471,30 +471,30 @@ sed -i '' "s/YOUR_USERNAME/$USER/g" ~/Library/LaunchAgents/com.monetarium.wallet
 ```
 
 > **Important**: When running the wallet as a service, it starts in a locked state and cannot sign transactions or vote on tickets. To enable full functionality, you must either:
-> 1. Add `pass=YourWalletPassphrase` to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
-> 2. Manually unlock the wallet after the service starts using: `~/monetarium/ctl --wallet walletpassphrase "YourPassphrase" 0`
+> 1. Add `pass=YourWalletPassphrase` to `~/Library/"Application Support"/Monetarium-wallet/monetarium-wallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
+> 2. Manually unlock the wallet after the service starts using: `~/monetarium/monetarium-ctl --wallet walletpassphrase "YourPassphrase" 0`
 
 ### Service Management
 
 ```bash
-# Load and start dcrd
+# Load and start node
 launchctl load ~/Library/LaunchAgents/com.monetarium.node.plist
 
-# Load and start dcrwallet
+# Load and start wallet
 launchctl load ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
-# Stop dcrd
+# Stop node
 launchctl unload ~/Library/LaunchAgents/com.monetarium.node.plist
 
-# Stop dcrwallet
+# Stop wallet
 launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
 # Check status
 launchctl list | grep monetarium
 
 # View logs
-tail -f ~/Library/"Application Support"/Dcrd/logs/launchd-stdout.log
-tail -f ~/Library/"Application Support"/Dcrwallet/logs/launchd-stdout.log
+tail -f ~/Library/"Application Support"/Monetarium/logs/launchd-stdout.log
+tail -f ~/Library/"Application Support"/Monetarium-wallet/logs/launchd-stdout.log
 ```
 
 ### Disable Auto-Start
@@ -523,12 +523,12 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 #### Method 1: Command Line Flag
 
 ```bash
-~/monetarium/node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
 ```
 
 #### Method 2: Configuration File
 
-Add to `~/Library/"Application Support"/Dcrd/dcrd.conf`:
+Add to `~/Library/"Application Support"/Monetarium/monetarium.conf`:
 
 ```ini
 addpeer=176.113.164.216:9108
@@ -539,13 +539,13 @@ addpeer=176.113.164.216:9108
 To connect ONLY to specific peers (no other connections):
 
 ```bash
-~/monetarium/node --connect=176.113.164.216:9108
+~/monetarium/monetarium-node --connect=176.113.164.216:9108
 ```
 
 ### Adding Multiple Peers
 
 ```ini
-; In dcrd.conf
+; In monetarium.conf
 addpeer=176.113.164.216:9108
 addpeer=another.peer.ip:9108
 ```
@@ -570,13 +570,13 @@ Your 33-word seed phrase was displayed during wallet creation. This is your **pr
 For convenience, also backup the wallet database:
 
 ```bash
-# Stop dcrwallet first
+# Stop wallet first
 launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
 # Copy wallet file
-cp ~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db ~/backup/wallet.db.backup
+cp ~/Library/"Application Support"/Monetarium-wallet/mainnet/wallet.db ~/backup/wallet.db.backup
 
-# Restart dcrwallet
+# Restart wallet
 launchctl load ~/Library/LaunchAgents/com.monetarium.wallet.plist
 ```
 
@@ -586,7 +586,7 @@ If you need to restore your wallet on a new machine:
 
 ```bash
 # Create new wallet with existing seed
-~/monetarium/wallet --create
+~/monetarium/monetarium-wallet --create
 ```
 
 When prompted:
@@ -602,10 +602,10 @@ When prompted:
 launchctl unload ~/Library/LaunchAgents/com.monetarium.wallet.plist
 
 # Restore wallet file
-cp ~/backup/wallet.db.backup ~/Library/"Application Support"/Dcrwallet/mainnet/wallet.db
+cp ~/backup/wallet.db.backup ~/Library/"Application Support"/Monetarium-wallet/mainnet/wallet.db
 
 # Start wallet
-~/monetarium/wallet
+~/monetarium/monetarium-wallet
 ```
 
 ---
@@ -624,7 +624,7 @@ This shows the total number of CPU cores available.
 
 ### Enable Mining in Configuration
 
-Add these options to `~/Library/"Application Support"/Dcrd/dcrd.conf`:
+Add these options to `~/Library/"Application Support"/Monetarium/monetarium.conf`:
 
 ```ini
 ; Enable CPU mining
@@ -639,7 +639,7 @@ miningaddr=MsYourAddressHere...
 Generate a mining address from your wallet:
 
 ```bash
-~/monetarium/ctl --wallet getnewaddress
+~/monetarium/monetarium-ctl --wallet getnewaddress
 ```
 
 Copy the address (starts with `Ms`) and use it as your `miningaddr`.
@@ -664,7 +664,7 @@ launchctl unload ~/Library/LaunchAgents/com.monetarium.node.plist
 launchctl load ~/Library/LaunchAgents/com.monetarium.node.plist
 
 # Or manually
-~/monetarium/node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
 ```
 
 ### Control Mining Threads
@@ -673,23 +673,23 @@ Use `setgenerate` RPC command to enable mining and set thread count:
 
 ```bash
 # Enable mining with 4 threads
-~/monetarium/ctl setgenerate true 4
+~/monetarium/monetarium-ctl setgenerate true 4
 
 # Enable mining with 1 thread (default)
-~/monetarium/ctl setgenerate true
+~/monetarium/monetarium-ctl setgenerate true
 
 # Disable mining
-~/monetarium/ctl setgenerate false
+~/monetarium/monetarium-ctl setgenerate false
 ```
 
 ### Monitor Mining
 
 ```bash
 # Check if mining is active
-~/monetarium/ctl getmininginfo
+~/monetarium/monetarium-ctl getmininginfo
 
 # Check hashrate
-~/monetarium/ctl gethashespersec
+~/monetarium/monetarium-ctl gethashespersec
 ```
 
 ### Mining Tips
@@ -713,7 +713,7 @@ Staking allows you to earn rewards by participating in Monetarium's proof-of-sta
 
 ### Enable Staking in Wallet Configuration
 
-Add these options to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
+Add these options to `~/Library/"Application Support"/Monetarium-wallet/monetarium-wallet.conf`:
 
 ```ini
 ; Enable automatic voting on tickets
@@ -737,7 +737,7 @@ accountgaplimit=10
 
 ### Wallet Passphrase for Auto-Unlock
 
-For automated staking, the wallet needs to unlock automatically. Add to `~/Library/"Application Support"/Dcrwallet/dcrwallet.conf`:
+For automated staking, the wallet needs to unlock automatically. Add to `~/Library/"Application Support"/Monetarium-wallet/monetarium-wallet.conf`:
 
 ```ini
 ; WARNING: Reduces security - only use on dedicated staking machines
@@ -754,7 +754,7 @@ pass=YourWalletPassphrase
 On your staking wallet:
 
 ```bash
-~/monetarium/ctl --wallet getnewaddress
+~/monetarium/monetarium-ctl --wallet getnewaddress
 ```
 
 Save this address (e.g., `MsStakingAddress...`)
@@ -765,13 +765,13 @@ If mining on a separate machine, send VAR to your staking wallet:
 
 ```bash
 # On mining node's wallet
-~/monetarium/ctl --wallet sendtoaddress "MsStakingAddress..." 100
+~/monetarium/monetarium-ctl --wallet sendtoaddress "MsStakingAddress..." 100
 ```
 
 #### Step 3: Start Staking Wallet
 
 ```bash
-~/monetarium/wallet
+~/monetarium/monetarium-wallet
 ```
 
 The wallet will automatically:
@@ -784,13 +784,13 @@ The wallet will automatically:
 
 ```bash
 # Check ticket status
-~/monetarium/ctl --wallet getstakeinfo
+~/monetarium/monetarium-ctl --wallet getstakeinfo
 
 # List your tickets
-~/monetarium/ctl --wallet gettickets true
+~/monetarium/monetarium-ctl --wallet gettickets true
 
 # Check voting status
-~/monetarium/ctl --wallet walletinfo
+~/monetarium/monetarium-ctl --wallet walletinfo
 ```
 
 ### Staking Parameters
@@ -832,49 +832,49 @@ Transfer VAR periodically from mining to staking wallet to fund ticket purchases
 
 ```bash
 # Check if process is running
-pgrep -l node
+pgrep -l monetarium-node
 
 # Check sync status
-~/monetarium/ctl getblockcount
+~/monetarium/monetarium-ctl getblockcount
 
 # Compare with network (ask peers)
-~/monetarium/ctl getblockchaininfo
+~/monetarium/monetarium-ctl getblockchaininfo
 ```
 
 ### Verify Peer Connections
 
 ```bash
 # List connected peers
-~/monetarium/ctl getpeerinfo
+~/monetarium/monetarium-ctl getpeerinfo
 
 # Check connection count
-~/monetarium/ctl getconnectioncount
+~/monetarium/monetarium-ctl getconnectioncount
 ```
 
 ### Verify Wallet Connection
 
 ```bash
 # Check wallet is connected to node
-~/monetarium/ctl --wallet getinfo
+~/monetarium/monetarium-ctl --wallet getinfo
 
 # Check balance
-~/monetarium/ctl --wallet getbalance
+~/monetarium/monetarium-ctl --wallet getbalance
 ```
 
 ### Common Issues
 
-#### "Connection refused" when using dcrctl
+#### "Connection refused" when using monetarium-ctl
 
-**Cause**: node is not running or RPC is misconfigured.
+**Cause**: monetarium-node is not running or RPC is misconfigured.
 
 **Solution**:
 ```bash
 # Check if node is running
-pgrep node
+pgrep monetarium-node
 
 # Verify RPC credentials match in:
-# ~/Library/"Application Support"/Dcrd/dcrd.conf
-# ~/Library/"Application Support"/Dcrctl/dcrctl.conf
+# ~/Library/"Application Support"/Monetarium/monetarium.conf
+# ~/Library/"Application Support"/Monetarium-ctl/monetarium-ctl.conf
 ```
 
 #### Wallet won't start - "unable to open database"
@@ -884,13 +884,13 @@ pgrep node
 **Solution**:
 ```bash
 # Check if already running
-pgrep wallet
+pgrep monetarium-wallet
 
 # Kill existing process
-pkill wallet
+pkill monetarium-wallet
 
 # Try again
-~/monetarium/wallet
+~/monetarium/monetarium-wallet
 ```
 
 #### No peers connecting
@@ -900,7 +900,7 @@ pkill wallet
 **Solution**:
 ```bash
 # Ensure seed node is configured
-~/monetarium/node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
 
 # Check firewall
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps
@@ -919,22 +919,22 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --listapps
 
 | Service | Log Path |
 |---------|----------|
-| node | `~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log` |
-| wallet | `~/Library/"Application Support"/Dcrwallet/logs/mainnet/dcrwallet.log` |
-| launchd (node) | `~/Library/"Application Support"/Dcrd/logs/launchd-stdout.log` |
-| launchd (wallet) | `~/Library/"Application Support"/Dcrwallet/logs/launchd-stdout.log` |
+| monetarium-node | `~/Library/"Application Support"/Monetarium/logs/mainnet/monetarium.log` |
+| monetarium-wallet | `~/Library/"Application Support"/Monetarium-wallet/logs/mainnet/monetarium-wallet.log` |
+| launchd (node) | `~/Library/"Application Support"/Monetarium/logs/launchd-stdout.log` |
+| launchd (wallet) | `~/Library/"Application Support"/Monetarium-wallet/logs/launchd-stdout.log` |
 
 ### View Logs
 
 ```bash
-# View dcrd log (last 100 lines)
-tail -100 ~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log
+# View node log (last 100 lines)
+tail -100 ~/Library/"Application Support"/Monetarium/logs/mainnet/monetarium.log
 
-# Follow dcrd log in real-time
-tail -f ~/Library/"Application Support"/Dcrd/logs/mainnet/dcrd.log
+# Follow node log in real-time
+tail -f ~/Library/"Application Support"/Monetarium/logs/mainnet/monetarium.log
 
 # View wallet log
-tail -f ~/Library/"Application Support"/Dcrwallet/logs/mainnet/dcrwallet.log
+tail -f ~/Library/"Application Support"/Monetarium-wallet/logs/mainnet/monetarium-wallet.log
 ```
 
 ---
@@ -945,32 +945,32 @@ tail -f ~/Library/"Application Support"/Dcrwallet/logs/mainnet/dcrwallet.log
 
 ```bash
 # Start node
-~/monetarium/node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
 
 # Start wallet
-~/monetarium/wallet
+~/monetarium/monetarium-wallet
 
 # Check balance
-~/monetarium/ctl --wallet getbalance
+~/monetarium/monetarium-ctl --wallet getbalance
 
 # Get new address
-~/monetarium/ctl --wallet getnewaddress
+~/monetarium/monetarium-ctl --wallet getnewaddress
 
 # Check sync status
-~/monetarium/ctl getblockcount
+~/monetarium/monetarium-ctl getblockcount
 
 # List peers
-~/monetarium/ctl getpeerinfo
+~/monetarium/monetarium-ctl getpeerinfo
 ```
 
 ### Mining Commands
 
 ```bash
 # Check mining status
-~/monetarium/ctl getmininginfo
+~/monetarium/monetarium-ctl getmininginfo
 
 # Check hashrate
-~/monetarium/ctl gethashespersec
+~/monetarium/monetarium-ctl gethashespersec
 
 # Check available CPU cores
 sysctl -n hw.ncpu
@@ -980,13 +980,13 @@ sysctl -n hw.ncpu
 
 ```bash
 # Check stake info
-~/monetarium/ctl --wallet getstakeinfo
+~/monetarium/monetarium-ctl --wallet getstakeinfo
 
 # List tickets
-~/monetarium/ctl --wallet gettickets true
+~/monetarium/monetarium-ctl --wallet gettickets true
 
 # Check wallet info
-~/monetarium/ctl --wallet walletinfo
+~/monetarium/monetarium-ctl --wallet walletinfo
 ```
 
 ### Default Ports
@@ -1003,9 +1003,9 @@ sysctl -n hw.ncpu
 | Path | Description |
 |------|-------------|
 | `~/monetarium/` | Binary installation |
-| `~/Library/"Application Support"/Dcrd/` | Node data & config |
-| `~/Library/"Application Support"/Dcrwallet/` | Wallet data & config |
-| `~/Library/"Application Support"/Dcrctl/` | CLI config |
+| `~/Library/"Application Support"/Monetarium/` | Node data & config |
+| `~/Library/"Application Support"/Monetarium-wallet/` | Wallet data & config |
+| `~/Library/"Application Support"/Monetarium-ctl/` | CLI config |
 
 ---
 

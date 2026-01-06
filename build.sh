@@ -45,9 +45,9 @@ build_binary() {
 }
 
 # Build all binaries
-build_binary "node" "dcrd"
-build_binary "ctl" "dcrctl"
-build_binary "wallet" "dcrwallet"
+build_binary "monetarium-node" "monetarium-node"
+build_binary "monetarium-ctl" "monetarium-ctl"
+build_binary "monetarium-wallet" "monetarium-wallet"
 
 echo ""
 echo "Build complete! Binaries:"

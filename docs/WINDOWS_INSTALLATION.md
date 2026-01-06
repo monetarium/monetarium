@@ -25,8 +25,8 @@ This guide provides step-by-step instructions for installing and running a Monet
 
 Monetarium is a multi-coin blockchain system featuring VAR (Varta) and SKA (Skarb) coins. This guide covers:
 
-- Installing the Monetarium node (`node.exe`) to participate in the network
-- Setting up the wallet (`wallet.exe`) to manage your coins
+- Installing the Monetarium node (`monetarium-node.exe`) to participate in the network
+- Setting up the wallet (`monetarium-wallet.exe`) to manage your coins
 - Configuring your network for optimal connectivity
 
 ---
@@ -48,19 +48,21 @@ Monetarium is a multi-coin blockchain system featuring VAR (Varta) and SKA (Skar
 ### Step 1: Download from GitHub
 
 Visit the release page:
-- [Monetarium Releases](https://github.com/monetarium/monetarium/releases)
+- [node](https://github.com/monetarium/monetarium-node/releases)
+- [wallet](https://github.com/monetarium/monetarium-wallet/releases)
+- [ctl](https://github.com/monetarium/monetarium-ctl/releases)
 
 Download the following files for Windows:
-- `node-windows-amd64.exe`
-- `wallet-windows-amd64.exe`
-- `ctl-windows-amd64.exe`
+- `monetarium-node-windows-amd64.exe`
+- `monetarium-wallet-windows-amd64.exe`
+- `monetarium-ctl-windows-amd64.exe`
 
 ### Step 2: Verify Downloads (Optional)
 
 If SHA256 checksums are provided, verify your downloads using PowerShell:
 
 ```powershell
-Get-FileHash .\node-windows-amd64.exe -Algorithm SHA256
+Get-FileHash .\monetarium-node-windows-amd64.exe -Algorithm SHA256
 ```
 
 Compare the output with the checksums on the releases page.
@@ -82,9 +84,9 @@ New-Item -ItemType Directory -Path "C:\monetarium" -Force
 Move the downloaded files to your installation directory and rename them:
 
 ```powershell
-Move-Item "$env:USERPROFILE\Downloads\node-windows-amd64.exe" "C:\monetarium\node.exe"
-Move-Item "$env:USERPROFILE\Downloads\wallet-windows-amd64.exe" "C:\monetarium\wallet.exe"
-Move-Item "$env:USERPROFILE\Downloads\ctl-windows-amd64.exe" "C:\monetarium\ctl.exe"
+Move-Item "$env:USERPROFILE\Downloads\monetarium-node-windows-amd64.exe" "C:\monetarium\monetarium-node.exe"
+Move-Item "$env:USERPROFILE\Downloads\monetarium-wallet-windows-amd64.exe" "C:\monetarium\monetarium-wallet.exe"
+Move-Item "$env:USERPROFILE\Downloads\monetarium-ctl-windows-amd64.exe" "C:\monetarium\monetarium-ctl.exe"
 ```
 
 ### Step 3: Add to PATH (Optional)
@@ -103,39 +105,39 @@ $env:PATH += ";C:\monetarium"
 
 On first run, Windows Defender SmartScreen may block the binaries:
 
-1. Try running the binary: `C:\monetarium\node.exe`
+1. Try running the binary: `C:\monetarium\monetarium-node.exe`
 2. If blocked, click **"More info"** then **"Run anyway"**
-3. Repeat for each binary (`node.exe`, `wallet.exe`, `ctl.exe`)
+3. Repeat for each binary (`monetarium-node.exe`, `monetarium-wallet.exe`, `monetarium-ctl.exe`)
 
 Alternatively, unblock via PowerShell (run as Administrator):
 
 ```powershell
-Unblock-File -Path "C:\monetarium\node.exe"
-Unblock-File -Path "C:\monetarium\wallet.exe"
-Unblock-File -Path "C:\monetarium\ctl.exe"
+Unblock-File -Path "C:\monetarium\monetarium-node.exe"
+Unblock-File -Path "C:\monetarium\monetarium-wallet.exe"
+Unblock-File -Path "C:\monetarium\monetarium-ctl.exe"
 ```
 
 ---
 
-## Running the Node (node)
+## Running the Node (monetarium-node)
 
-The node (`node.exe`) connects to the Monetarium network and maintains a copy of the blockchain.
+The node (`monetarium-node.exe`) connects to the Monetarium network and maintains a copy of the blockchain.
 
 ### First Run
 
 ```powershell
-C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 ```
 
-On first run, node will:
-- Create configuration directory at `%LOCALAPPDATA%\Dcrd\`
-- Generate RPC credentials in `%LOCALAPPDATA%\Dcrd\dcrd.conf`
+On first run, monetarium-node will:
+- Create configuration directory at `%LOCALAPPDATA%\Monetarium\`
+- Generate RPC credentials in `%LOCALAPPDATA%\Monetarium\monetarium.conf`
 - Create TLS certificates for secure RPC communication
 - Begin syncing the blockchain
 
 ### Configuration File
 
-The main configuration file is located at `%LOCALAPPDATA%\Dcrd\dcrd.conf`. Key options:
+The main configuration file is located at `%LOCALAPPDATA%\Monetarium\monetarium.conf`. Key options:
 
 ```ini
 ; RPC credentials (auto-generated on first run)
@@ -153,27 +155,27 @@ addpeer=176.113.164.216:9108
 
 | Path | Contents |
 |------|----------|
-| `%LOCALAPPDATA%\Dcrd\dcrd.conf` | Configuration file |
-| `%LOCALAPPDATA%\Dcrd\data\mainnet\` | Blockchain database |
-| `%LOCALAPPDATA%\Dcrd\logs\mainnet\` | Log files |
-| `%LOCALAPPDATA%\Dcrd\rpc.cert` | TLS certificate |
+| `%LOCALAPPDATA%\Monetarium\monetarium.conf` | Configuration file |
+| `%LOCALAPPDATA%\Monetarium\data\mainnet\` | Blockchain database |
+| `%LOCALAPPDATA%\Monetarium\logs\mainnet\` | Log files |
+| `%LOCALAPPDATA%\Monetarium\rpc.cert` | TLS certificate |
 
-> **Tip**: Open the folder in Explorer by running: `explorer %LOCALAPPDATA%\Dcrd`
+> **Tip**: Open the folder in Explorer by running: `explorer %LOCALAPPDATA%\Monetarium`
 
 ---
 
-## Running the Wallet (wallet)
+## Running the Wallet (monetarium-wallet)
 
-The wallet (`wallet.exe`) manages your VAR and SKA coins.
+The wallet (`monetarium-wallet.exe`) manages your VAR and SKA coins.
 
 ### Prerequisites
 
-- The node (`node.exe`) must be running
+- The node (`monetarium-node.exe`) must be running
 
 ### Step 1: Create Wallet
 
 ```powershell
-C:\monetarium\wallet.exe --create
+C:\monetarium\monetarium-wallet.exe --create
 ```
 
 You will be prompted to:
@@ -187,12 +189,12 @@ You will be prompted to:
 ### Step 2: Start the Wallet
 
 ```powershell
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 ```
 
 ### Configuration File
 
-The wallet configuration is at `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf`:
+The wallet configuration is at `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf`:
 
 ```ini
 ; Connect to local node
@@ -207,19 +209,19 @@ password=your_rpc_password
 
 | Path | Contents |
 |------|----------|
-| `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf` | Configuration file |
-| `%LOCALAPPDATA%\Dcrwallet\mainnet\wallet.db` | Wallet database |
-| `%LOCALAPPDATA%\Dcrwallet\logs\mainnet\` | Log files |
+| `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf` | Configuration file |
+| `%LOCALAPPDATA%\Monetarium-wallet\mainnet\wallet.db` | Wallet database |
+| `%LOCALAPPDATA%\Monetarium-wallet\logs\mainnet\` | Log files |
 
 ---
 
-## Using ctl
+## Using monetarium-ctl
 
-`ctl.exe` is the command-line interface for interacting with the node and wallet.
+`monetarium-ctl.exe` is the command-line interface for interacting with the node and wallet.
 
 ### Basic Setup
 
-Create a configuration file at `%LOCALAPPDATA%\Dcrctl\dcrctl.conf`:
+Create a configuration file at `%LOCALAPPDATA%\Monetarium-ctl\monetarium-ctl.conf`:
 
 ```ini
 rpcuser=your_rpc_user
@@ -229,24 +231,24 @@ rpcpass=your_rpc_password
 Create the directory and file:
 
 ```powershell
-New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\Dcrctl" -Force
-notepad "$env:LOCALAPPDATA\Dcrctl\dcrctl.conf"
+New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\Monetarium-ctl" -Force
+notepad "$env:LOCALAPPDATA\Monetarium-ctl\monetarium-ctl.conf"
 ```
 
 ### Node Commands
 
 ```powershell
 # Check node sync status
-C:\monetarium\ctl.exe getblockcount
+C:\monetarium\monetarium-ctl.exe getblockcount
 
 # Get network info
-C:\monetarium\ctl.exe getnetworkinfo
+C:\monetarium\monetarium-ctl.exe getnetworkinfo
 
 # List connected peers
-C:\monetarium\ctl.exe getpeerinfo
+C:\monetarium\monetarium-ctl.exe getpeerinfo
 
 # Get blockchain info
-C:\monetarium\ctl.exe getblockchaininfo
+C:\monetarium\monetarium-ctl.exe getblockchaininfo
 ```
 
 ### Wallet Commands
@@ -255,16 +257,16 @@ Add `--wallet` flag to interact with the wallet:
 
 ```powershell
 # Get wallet balance
-C:\monetarium\ctl.exe --wallet getbalance
+C:\monetarium\monetarium-ctl.exe --wallet getbalance
 
 # Generate new address
-C:\monetarium\ctl.exe --wallet getnewaddress
+C:\monetarium\monetarium-ctl.exe --wallet getnewaddress
 
 # List transactions
-C:\monetarium\ctl.exe --wallet listtransactions
+C:\monetarium\monetarium-ctl.exe --wallet listtransactions
 
 # Send coins (unlocks wallet temporarily)
-C:\monetarium\ctl.exe --wallet sendtoaddress "MsAddress..." 1.0
+C:\monetarium\monetarium-ctl.exe --wallet sendtoaddress "MsAddress..." 1.0
 ```
 
 ---
@@ -290,10 +292,10 @@ To participate fully in the network and allow incoming connections, configure yo
 
 ```powershell
 # Allow inbound connections for node
-New-NetFirewallRule -DisplayName "Monetarium Node (Inbound)" -Direction Inbound -Program "C:\monetarium\node.exe" -Action Allow -Protocol TCP -LocalPort 9108
+New-NetFirewallRule -DisplayName "Monetarium Node (Inbound)" -Direction Inbound -Program "C:\monetarium\monetarium-node.exe" -Action Allow -Protocol TCP -LocalPort 9108
 
 # Allow outbound connections for node
-New-NetFirewallRule -DisplayName "Monetarium Node (Outbound)" -Direction Outbound -Program "C:\monetarium\node.exe" -Action Allow -Protocol TCP
+New-NetFirewallRule -DisplayName "Monetarium Node (Outbound)" -Direction Outbound -Program "C:\monetarium\monetarium-node.exe" -Action Allow -Protocol TCP
 ```
 
 #### Using Windows GUI
@@ -302,7 +304,7 @@ New-NetFirewallRule -DisplayName "Monetarium Node (Outbound)" -Direction Outboun
 2. Click **"Allow an app through firewall"**
 3. Click **"Change settings"** (requires admin)
 4. Click **"Allow another app..."**
-5. Browse to `C:\monetarium\node.exe` and add it
+5. Browse to `C:\monetarium\monetarium-node.exe` and add it
 6. Ensure both **Private** and **Public** are checked
 
 #### Verify Firewall Rules
@@ -367,7 +369,7 @@ The node has built-in Windows service support. Run PowerShell as Administrator:
 #### Install Service
 
 ```powershell
-C:\monetarium\node.exe --service install
+C:\monetarium\monetarium-node.exe --service install
 ```
 
 #### Configure Service Account (Required)
@@ -410,19 +412,19 @@ sc.exe config monetariumsvc start= auto
 #### Start Service
 
 ```powershell
-C:\monetarium\node.exe --service start
+C:\monetarium\monetarium-node.exe --service start
 ```
 
 #### Stop Service
 
 ```powershell
-C:\monetarium\node.exe --service stop
+C:\monetarium\monetarium-node.exe --service stop
 ```
 
 #### Remove Service
 
 ```powershell
-C:\monetarium\node.exe --service remove
+C:\monetarium\monetarium-node.exe --service remove
 ```
 
 #### Check Service Status
@@ -441,7 +443,7 @@ The wallet can also run as a Windows service when configured with auto-unlock pa
 
 #### Prerequisites
 
-Add the passphrase to `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf`:
+Add the passphrase to `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf`:
 
 ```ini
 ; Private passphrase for automatic wallet unlock
@@ -452,11 +454,11 @@ pass=YourWalletPassphrase
 
 #### Using NSSM
 
-Download [NSSM](https://nssm.cc/) (Non-Sucking Service Manager), put `nssm.exe` in the same directory as `wallet.exe` and run as Administrator:
+Download [NSSM](https://nssm.cc/) (Non-Sucking Service Manager), put `nssm.exe` in the same directory as `monetarium-wallet.exe` and run as Administrator:
 
 ```powershell
 # Install wallet as service
-nssm install MonetariumWallet C:\monetarium\wallet.exe
+nssm install MonetariumWallet C:\monetarium\monetarium-wallet.exe
 
 # Configure to run as your user account (required)
 # Replace YourUsername and YourPassword with your Windows credentials
@@ -481,13 +483,13 @@ nssm remove MonetariumWallet confirm
 
 > **Note**: NSSM may report `SERVICE_PAUSED` status for the wallet service. This is cosmetic and does not indicate a problem. Verify the wallet is working by running:
 > ```powershell
-> C:\monetarium\ctl.exe --wallet getbalance
+> C:\monetarium\monetarium-ctl.exe --wallet getbalance
 > ```
 > If this returns your balance, the wallet service is functioning correctly.
 
 > **Important**: When running the wallet as a service, it starts in a locked state and cannot sign transactions or vote on tickets. To enable full functionality, you must either:
-> 1. Add `pass=YourWalletPassphrase` to `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
-> 2. Manually unlock the wallet after the service starts using: `C:\monetarium\ctl.exe --wallet walletpassphrase "YourPassphrase" 0`
+> 1. Add `pass=YourWalletPassphrase` to `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf` (see [Staking & Ticket Auto-Purchase](#staking--ticket-auto-purchase) section), OR
+> 2. Manually unlock the wallet after the service starts using: `C:\monetarium\monetarium-ctl.exe --wallet walletpassphrase "YourPassphrase" 0`
 
 #### Using Task Scheduler (Alternative)
 
@@ -498,7 +500,7 @@ If you prefer not to store the passphrase in config, use Task Scheduler for manu
 3. Name: `Monetarium Wallet`
 4. Trigger: **"When I log on"**
 5. Action: **"Start a program"**
-6. Program: `C:\monetarium\wallet.exe`
+6. Program: `C:\monetarium\monetarium-wallet.exe`
 7. Finish and test by right-clicking → **Run**
 
 ---
@@ -518,12 +520,12 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 #### Method 1: Command Line Flag
 
 ```powershell
-C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 ```
 
 #### Method 2: Configuration File
 
-Add to `%LOCALAPPDATA%\Dcrd\dcrd.conf`:
+Add to `%LOCALAPPDATA%\Monetarium\monetarium.conf`:
 
 ```ini
 addpeer=176.113.164.216:9108
@@ -534,13 +536,13 @@ addpeer=176.113.164.216:9108
 To connect ONLY to specific peers (no other connections):
 
 ```powershell
-C:\monetarium\node.exe --connect=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --connect=176.113.164.216:9108
 ```
 
 ### Adding Multiple Peers
 
 ```ini
-; In dcrd.conf
+; In monetarium.conf
 addpeer=176.113.164.216:9108
 addpeer=another.peer.ip:9108
 ```
@@ -566,13 +568,13 @@ For convenience, also backup the wallet database:
 
 ```powershell
 # Stop wallet first
-taskkill /IM wallet.exe /F
+taskkill /IM monetarium-wallet.exe /F
 
 # Copy wallet file
-Copy-Item "$env:LOCALAPPDATA\Dcrwallet\mainnet\wallet.db" "D:\backup\wallet.db.backup"
+Copy-Item "$env:LOCALAPPDATA\Monetarium-wallet\mainnet\wallet.db" "D:\backup\wallet.db.backup"
 
 # Restart wallet
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 ```
 
 ### Recover From Seed Phrase
@@ -581,7 +583,7 @@ If you need to restore your wallet on a new machine:
 
 ```powershell
 # Create new wallet with existing seed
-C:\monetarium\wallet.exe --create
+C:\monetarium\monetarium-wallet.exe --create
 ```
 
 When prompted:
@@ -594,13 +596,13 @@ When prompted:
 
 ```powershell
 # Stop wallet if running
-taskkill /IM wallet.exe /F
+taskkill /IM monetarium-wallet.exe /F
 
 # Restore wallet file
-Copy-Item "D:\backup\wallet.db.backup" "$env:LOCALAPPDATA\Dcrwallet\mainnet\wallet.db"
+Copy-Item "D:\backup\wallet.db.backup" "$env:LOCALAPPDATA\Monetarium-wallet\mainnet\wallet.db"
 
 # Start wallet
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 ```
 
 ---
@@ -619,7 +621,7 @@ This shows the total number of CPU threads available.
 
 ### Enable Mining in Configuration
 
-Add these options to `%LOCALAPPDATA%\Dcrd\dcrd.conf`:
+Add these options to `%LOCALAPPDATA%\Monetarium\monetarium.conf`:
 
 ```ini
 ; Enable CPU mining
@@ -634,7 +636,7 @@ miningaddr=MsYourAddressHere...
 Generate a mining address from your wallet:
 
 ```powershell
-C:\monetarium\ctl.exe --wallet getnewaddress
+C:\monetarium\monetarium-ctl.exe --wallet getnewaddress
 ```
 
 Copy the address (starts with `Ms`) and use it as your `miningaddr`.
@@ -655,11 +657,11 @@ After configuration, restart the node:
 
 ```powershell
 # If running as service
-C:\monetarium\node.exe --service stop
-C:\monetarium\node.exe --service start
+C:\monetarium\monetarium-node.exe --service stop
+C:\monetarium\monetarium-node.exe --service start
 
 # Or manually (stop with Ctrl+C first)
-C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 ```
 
 ### Control Mining Threads
@@ -668,23 +670,23 @@ Use `setgenerate` RPC command to enable mining and set thread count:
 
 ```powershell
 # Enable mining with 4 threads
-C:\monetarium\ctl.exe setgenerate true 4
+C:\monetarium\monetarium-ctl.exe setgenerate true 4
 
 # Enable mining with 1 thread (default)
-C:\monetarium\ctl.exe setgenerate true
+C:\monetarium\monetarium-ctl.exe setgenerate true
 
 # Disable mining
-C:\monetarium\ctl.exe setgenerate false
+C:\monetarium\monetarium-ctl.exe setgenerate false
 ```
 
 ### Monitor Mining
 
 ```powershell
 # Check if mining is active
-C:\monetarium\ctl.exe getmininginfo
+C:\monetarium\monetarium-ctl.exe getmininginfo
 
 # Check hashrate
-C:\monetarium\ctl.exe gethashespersec
+C:\monetarium\monetarium-ctl.exe gethashespersec
 ```
 
 ### Mining Tips
@@ -708,7 +710,7 @@ Staking allows you to earn rewards by participating in Monetarium's proof-of-sta
 
 ### Enable Staking in Wallet Configuration
 
-Add these options to `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf`:
+Add these options to `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf`:
 
 ```ini
 ; Enable automatic voting on tickets
@@ -732,7 +734,7 @@ accountgaplimit=10
 
 ### Wallet Passphrase for Auto-Unlock
 
-For automated staking, the wallet needs to unlock automatically. Add to `%LOCALAPPDATA%\Dcrwallet\dcrwallet.conf`:
+For automated staking, the wallet needs to unlock automatically. Add to `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wallet.conf`:
 
 ```ini
 ; WARNING: Reduces security - only use on dedicated staking machines
@@ -749,7 +751,7 @@ pass=YourWalletPassphrase
 On your staking wallet:
 
 ```powershell
-C:\monetarium\ctl.exe --wallet getnewaddress
+C:\monetarium\monetarium-ctl.exe --wallet getnewaddress
 ```
 
 Save this address (e.g., `MsStakingAddress...`)
@@ -760,13 +762,13 @@ If mining on a separate machine, send VAR to your staking wallet:
 
 ```powershell
 # On mining node's wallet
-C:\monetarium\ctl.exe --wallet sendtoaddress "MsStakingAddress..." 100
+C:\monetarium\monetarium-ctl.exe --wallet sendtoaddress "MsStakingAddress..." 100
 ```
 
 #### Step 3: Start Staking Wallet
 
 ```powershell
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 ```
 
 The wallet will automatically:
@@ -779,13 +781,13 @@ The wallet will automatically:
 
 ```powershell
 # Check ticket status
-C:\monetarium\ctl.exe --wallet getstakeinfo
+C:\monetarium\monetarium-ctl.exe --wallet getstakeinfo
 
 # List your tickets
-C:\monetarium\ctl.exe --wallet gettickets true
+C:\monetarium\monetarium-ctl.exe --wallet gettickets true
 
 # Check voting status
-C:\monetarium\ctl.exe --wallet walletinfo
+C:\monetarium\monetarium-ctl.exe --wallet walletinfo
 ```
 
 ### Staking Parameters
@@ -827,49 +829,49 @@ Transfer VAR periodically from mining to staking wallet to fund ticket purchases
 
 ```powershell
 # Check if process is running
-Get-Process node -ErrorAction SilentlyContinue
+Get-Process monetarium-node -ErrorAction SilentlyContinue
 
 # Check sync status
-C:\monetarium\ctl.exe getblockcount
+C:\monetarium\monetarium-ctl.exe getblockcount
 
 # Get blockchain info
-C:\monetarium\ctl.exe getblockchaininfo
+C:\monetarium\monetarium-ctl.exe getblockchaininfo
 ```
 
 ### Verify Peer Connections
 
 ```powershell
 # List connected peers
-C:\monetarium\ctl.exe getpeerinfo
+C:\monetarium\monetarium-ctl.exe getpeerinfo
 
 # Check connection count
-C:\monetarium\ctl.exe getconnectioncount
+C:\monetarium\monetarium-ctl.exe getconnectioncount
 ```
 
 ### Verify Wallet Connection
 
 ```powershell
 # Check wallet is connected to node
-C:\monetarium\ctl.exe --wallet getinfo
+C:\monetarium\monetarium-ctl.exe --wallet getinfo
 
 # Check balance
-C:\monetarium\ctl.exe --wallet getbalance
+C:\monetarium\monetarium-ctl.exe --wallet getbalance
 ```
 
 ### Common Issues
 
-#### "Connection refused" when using ctl
+#### "Connection refused" when using monetarium-ctl
 
-**Cause**: Node is not running or RPC is misconfigured.
+**Cause**: monetarium-node is not running or RPC is misconfigured.
 
 **Solution**:
 ```powershell
 # Check if node is running
-Get-Process node
+Get-Process monetarium-node
 
 # Verify RPC credentials match in:
-# %LOCALAPPDATA%\Dcrd\dcrd.conf
-# %LOCALAPPDATA%\Dcrctl\dcrctl.conf
+# %LOCALAPPDATA%\Monetarium\monetarium.conf
+# %LOCALAPPDATA%\Monetarium-ctl\monetarium-ctl.conf
 ```
 
 #### Wallet won't start - "unable to open database"
@@ -879,13 +881,13 @@ Get-Process node
 **Solution**:
 ```powershell
 # Check if already running
-Get-Process wallet
+Get-Process monetarium-wallet
 
 # Kill existing process
-taskkill /IM wallet.exe /F
+taskkill /IM monetarium-wallet.exe /F
 
 # Try again
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 ```
 
 #### No peers connecting
@@ -895,7 +897,7 @@ C:\monetarium\wallet.exe
 **Solution**:
 ```powershell
 # Ensure seed node is configured
-C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 
 # Check firewall rules
 Get-NetFirewallRule -DisplayName "Monetarium*"
@@ -924,7 +926,7 @@ Some antivirus software may flag or quarantine Monetarium binaries.
 
 **Symptoms**:
 - Service shows as "Running" but `ctl.exe` commands fail with certificate errors
-- Log files in `%LOCALAPPDATA%\Dcrd\logs\` are not updating
+- Log files in `%LOCALAPPDATA%\Monetarium\logs\` are not updating
 - Wallet service shows `SERVICE_PAUSED` in NSSM
 
 **Solution**:
@@ -944,20 +946,20 @@ Then restart the service. See [Running as Background Service](#running-as-backgr
 
 | Service | Log Path |
 |---------|----------|
-| Node | `%LOCALAPPDATA%\Dcrd\logs\mainnet\dcrd.log` |
-| Wallet | `%LOCALAPPDATA%\Dcrwallet\logs\mainnet\dcrwallet.log` |
+| monetarium-node | `%LOCALAPPDATA%\Monetarium\logs\mainnet\monetarium.log` |
+| monetarium-wallet | `%LOCALAPPDATA%\Monetarium-wallet\logs\mainnet\monetarium-wallet.log` |
 
 ### View Logs
 
 ```powershell
 # View node log (last 100 lines)
-Get-Content "$env:LOCALAPPDATA\Dcrd\logs\mainnet\dcrd.log" -Tail 100
+Get-Content "$env:LOCALAPPDATA\Monetarium\logs\mainnet\monetarium.log" -Tail 100
 
 # Follow node log in real-time
-Get-Content "$env:LOCALAPPDATA\Dcrd\logs\mainnet\dcrd.log" -Wait -Tail 50
+Get-Content "$env:LOCALAPPDATA\Monetarium\logs\mainnet\monetarium.log" -Wait -Tail 50
 
 # View wallet log
-Get-Content "$env:LOCALAPPDATA\Dcrwallet\logs\mainnet\dcrwallet.log" -Wait -Tail 50
+Get-Content "$env:LOCALAPPDATA\Monetarium-wallet\logs\mainnet\monetarium-wallet.log" -Wait -Tail 50
 ```
 
 ---
@@ -968,32 +970,32 @@ Get-Content "$env:LOCALAPPDATA\Dcrwallet\logs\mainnet\dcrwallet.log" -Wait -Tail
 
 ```powershell
 # Start node
-C:\monetarium\node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 
 # Start wallet
-C:\monetarium\wallet.exe
+C:\monetarium\monetarium-wallet.exe
 
 # Check balance
-C:\monetarium\ctl.exe --wallet getbalance
+C:\monetarium\monetarium-ctl.exe --wallet getbalance
 
 # Get new address
-C:\monetarium\ctl.exe --wallet getnewaddress
+C:\monetarium\monetarium-ctl.exe --wallet getnewaddress
 
 # Check sync status
-C:\monetarium\ctl.exe getblockcount
+C:\monetarium\monetarium-ctl.exe getblockcount
 
 # List peers
-C:\monetarium\ctl.exe getpeerinfo
+C:\monetarium\monetarium-ctl.exe getpeerinfo
 ```
 
 ### Mining Commands
 
 ```powershell
 # Check mining status
-C:\monetarium\ctl.exe getmininginfo
+C:\monetarium\monetarium-ctl.exe getmininginfo
 
 # Check hashrate
-C:\monetarium\ctl.exe gethashespersec
+C:\monetarium\monetarium-ctl.exe gethashespersec
 
 # Check available CPU threads
 (Get-CimInstance Win32_Processor).NumberOfLogicalProcessors
@@ -1003,29 +1005,29 @@ C:\monetarium\ctl.exe gethashespersec
 
 ```powershell
 # Check stake info
-C:\monetarium\ctl.exe --wallet getstakeinfo
+C:\monetarium\monetarium-ctl.exe --wallet getstakeinfo
 
 # List tickets
-C:\monetarium\ctl.exe --wallet gettickets true
+C:\monetarium\monetarium-ctl.exe --wallet gettickets true
 
 # Check wallet info
-C:\monetarium\ctl.exe --wallet walletinfo
+C:\monetarium\monetarium-ctl.exe --wallet walletinfo
 ```
 
 ### Service Commands (Run as Administrator)
 
 ```powershell
 # Install node service
-C:\monetarium\node.exe --service install
+C:\monetarium\monetarium-node.exe --service install
 
 # Start service
-C:\monetarium\node.exe --service start
+C:\monetarium\monetarium-node.exe --service start
 
 # Stop service
-C:\monetarium\node.exe --service stop
+C:\monetarium\monetarium-node.exe --service stop
 
 # Remove service
-C:\monetarium\node.exe --service remove
+C:\monetarium\monetarium-node.exe --service remove
 
 # Check service status
 Get-Service monetariumsvc
@@ -1045,9 +1047,9 @@ Get-Service monetariumsvc
 | Path | Description |
 |------|-------------|
 | `C:\monetarium\` | Binary installation |
-| `%LOCALAPPDATA%\Dcrd\` | Node data & config |
-| `%LOCALAPPDATA%\Dcrwallet\` | Wallet data & config |
-| `%LOCALAPPDATA%\Dcrctl\` | CLI config |
+| `%LOCALAPPDATA%\Monetarium\` | Node data & config |
+| `%LOCALAPPDATA%\Monetarium-wallet\` | Wallet data & config |
+| `%LOCALAPPDATA%\Monetarium-ctl\` | CLI config |
 
 ---
 
