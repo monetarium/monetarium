@@ -39,51 +39,29 @@ Monetarium is a multi-coin blockchain system featuring VAR (Varta) and SKA (Skar
 | **Disk Space** | 50 GB free (for blockchain data) |
 | **RAM** | 4 GB |
 | **Internet** | Stable broadband connection |
-| **Architecture** | x86_64 (amd64) or arm64 |
+| **Architecture** | x86_64 (amd64) |
 
 ---
 
 ## Download Binaries
 
-### Step 1: Identify Your Architecture
-
-Open Terminal and run:
-
-```bash
-uname -m
-```
-
-- `x86_64` = Intel/AMD 64-bit → download **amd64** binaries
-- `aarch64` = ARM 64-bit (Raspberry Pi 4, etc.) → download **arm64** binaries
-
-### Step 2: Download from GitHub
+### Step 1: Download from GitHub
 
 Visit the release pages:
 - [node](https://github.com/monetarium/monetarium-node/releases)
 - [wallet](https://github.com/monetarium/monetarium-wallet/releases)
 - [ctl](https://github.com/monetarium/monetarium-ctl/releases)
 
-Download the following files for your architecture:
-
-**For x86_64 (amd64):**
+Download the following files:
 - `monetarium-node-linux-amd64`
 - `monetarium-wallet-linux-amd64`
 - `monetarium-ctl-linux-amd64`
 
-**For ARM64 (aarch64):**
-- `monetarium-node-linux-arm64`
-- `monetarium-wallet-linux-arm64`
-- `monetarium-ctl-linux-arm64`
-
-### Step 3: Verify Downloads (Optional)
+### Step 2: Verify Downloads (Optional)
 
 If SHA256 checksums are provided, verify your downloads:
 
-```bash
-sha256sum monetarium-*-linux-*
-```
-
-Compare the output with the checksums on the releases page.
+Compare checksums on the releases page with downloaded files.
 
 ---
 
