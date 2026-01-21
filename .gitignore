@@ -24,6 +24,7 @@ seed*.gpg
 # Test binary, built with `go test -c`
 *.test
 test*
+!docs/TESTNET.md
 
 # Code coverage profiles and other test artifacts
 *.out
@@ -56,3 +57,4 @@ ubuntu_bin
 bin
 mainnet*
 utils
+ralph-claude-code
