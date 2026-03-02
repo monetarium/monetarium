@@ -126,7 +126,7 @@ The node (`monetarium-node.exe`) connects to the Monetarium network and maintain
 ### First Run
 
 ```powershell
-C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9508
 ```
 
 On first run, monetarium-node will:
@@ -145,7 +145,7 @@ rpcuser=your_rpc_user
 rpcpass=your_rpc_password
 
 ; Add persistent peers
-addpeer=176.113.164.216:9108
+addpeer=176.113.164.216:9508
 
 ; External IP (if behind NAT, set your public IP)
 ; externalip=your.public.ip.address
@@ -198,7 +198,7 @@ The wallet configuration is at `%LOCALAPPDATA%\Monetarium-wallet\monetarium-wall
 
 ```ini
 ; Connect to local node
-rpcconnect=127.0.0.1:9109
+rpcconnect=127.0.0.1:9509
 
 ; Use node's RPC credentials
 username=your_rpc_user
@@ -279,12 +279,12 @@ To participate fully in the network and allow incoming connections, configure yo
 
 | Port | Protocol | Direction | Purpose |
 |------|----------|-----------|---------|
-| **9108** | TCP | Inbound + Outbound | P2P node communication |
-| 9109 | TCP | Localhost only | Node RPC |
-| 9110 | TCP | Localhost only | Wallet JSON-RPC |
-| 9111 | TCP | Localhost only | Wallet gRPC |
+| **9508** | TCP | Inbound + Outbound | P2P node communication |
+| 9509 | TCP | Localhost only | Node RPC |
+| 9510 | TCP | Localhost only | Wallet JSON-RPC |
+| 9511 | TCP | Localhost only | Wallet gRPC |
 
-> **Note**: Only port **9108** needs to be opened for external access. RPC ports should remain localhost-only for security.
+> **Note**: Only port **9508** needs to be opened for external access. RPC ports should remain localhost-only for security.
 
 ### Windows Defender Firewall Configuration
 
@@ -292,7 +292,7 @@ To participate fully in the network and allow incoming connections, configure yo
 
 ```powershell
 # Allow inbound connections for node
-New-NetFirewallRule -DisplayName "Monetarium Node (Inbound)" -Direction Inbound -Program "C:\monetarium\monetarium-node.exe" -Action Allow -Protocol TCP -LocalPort 9108
+New-NetFirewallRule -DisplayName "Monetarium Node (Inbound)" -Direction Inbound -Program "C:\monetarium\monetarium-node.exe" -Action Allow -Protocol TCP -LocalPort 9508
 
 # Allow outbound connections for node
 New-NetFirewallRule -DisplayName "Monetarium Node (Outbound)" -Direction Outbound -Program "C:\monetarium\monetarium-node.exe" -Action Allow -Protocol TCP
@@ -339,8 +339,8 @@ Navigate to **Port Forwarding** (may be under Advanced Settings, NAT, or Virtual
 | Setting | Value |
 |---------|-------|
 | Service Name | Monetarium |
-| External Port | 9108 |
-| Internal Port | 9108 |
+| External Port | 9508 |
+| Internal Port | 9508 |
 | Protocol | TCP |
 | Internal IP | Your PC's IP (e.g., 192.168.1.100) |
 
@@ -512,7 +512,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 ### Official Seed Node
 
 ```
-176.113.164.216:9108
+176.113.164.216:9508
 ```
 
 ### Connection Methods
@@ -520,7 +520,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 #### Method 1: Command Line Flag
 
 ```powershell
-C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9508
 ```
 
 #### Method 2: Configuration File
@@ -528,7 +528,7 @@ C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
 Add to `%LOCALAPPDATA%\Monetarium\monetarium.conf`:
 
 ```ini
-addpeer=176.113.164.216:9108
+addpeer=176.113.164.216:9508
 ```
 
 #### Method 3: Connect-Only Mode
@@ -536,15 +536,15 @@ addpeer=176.113.164.216:9108
 To connect ONLY to specific peers (no other connections):
 
 ```powershell
-C:\monetarium\monetarium-node.exe --connect=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --connect=176.113.164.216:9508
 ```
 
 ### Adding Multiple Peers
 
 ```ini
 ; In monetarium.conf
-addpeer=176.113.164.216:9108
-addpeer=another.peer.ip:9108
+addpeer=176.113.164.216:9508
+addpeer=another.peer.ip:9508
 ```
 
 ---
@@ -661,7 +661,7 @@ C:\monetarium\monetarium-node.exe --service stop
 C:\monetarium\monetarium-node.exe --service start
 
 # Or manually (stop with Ctrl+C first)
-C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9508
 ```
 
 ### Control Mining Threads
@@ -897,7 +897,7 @@ C:\monetarium\monetarium-wallet.exe
 **Solution**:
 ```powershell
 # Ensure seed node is configured
-C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9508
 
 # Check firewall rules
 Get-NetFirewallRule -DisplayName "Monetarium*"
@@ -908,7 +908,7 @@ Get-NetFirewallRule -DisplayName "Monetarium*"
 **Cause**: Limited peer connections or network issues.
 
 **Solution**:
-- Ensure port 9108 is forwarded in your router
+- Ensure port 9508 is forwarded in your router
 - Add more peers if available
 - Check internet connection stability
 
@@ -970,7 +970,7 @@ Get-Content "$env:LOCALAPPDATA\Monetarium-wallet\logs\mainnet\monetarium-wallet.
 
 ```powershell
 # Start node
-C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9108
+C:\monetarium\monetarium-node.exe --addpeer=176.113.164.216:9508
 
 # Start wallet
 C:\monetarium\monetarium-wallet.exe
@@ -1037,10 +1037,10 @@ Get-Service monetariumsvc
 
 | Port | Service |
 |------|---------|
-| 9108 | P2P Network |
-| 9109 | Node RPC |
-| 9110 | Wallet JSON-RPC |
-| 9111 | Wallet gRPC |
+| 9508 | P2P Network |
+| 9509 | Node RPC |
+| 9510 | Wallet JSON-RPC |
+| 9511 | Wallet gRPC |
 
 ### Important Paths
 

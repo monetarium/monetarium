@@ -112,7 +112,7 @@ The node (`monetarium-node`) connects to the Monetarium network and maintains a 
 ### First Run
 
 ```bash
-~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 ```
 
 On first run, monetarium-node will:
@@ -131,7 +131,7 @@ rpcuser=your_rpc_user
 rpcpass=your_rpc_password
 
 ; Add persistent peers
-addpeer=176.113.164.216:9108
+addpeer=176.113.164.216:9508
 
 ; External IP (if behind NAT, set your public IP)
 ; externalip=your.public.ip.address
@@ -183,7 +183,7 @@ The wallet configuration is at `~/.monetarium-wallet/monetarium-wallet.conf`:
 
 ```ini
 ; Connect to local node
-rpcconnect=127.0.0.1:9109
+rpcconnect=127.0.0.1:9509
 
 ; Use node's RPC credentials
 username=your_rpc_user
@@ -261,12 +261,12 @@ To participate fully in the network and allow incoming connections, configure yo
 
 | Port | Protocol | Direction | Purpose |
 |------|----------|-----------|---------|
-| **9108** | TCP | Inbound + Outbound | P2P node communication |
-| 9109 | TCP | Localhost only | Node RPC |
-| 9110 | TCP | Localhost only | Wallet JSON-RPC |
-| 9111 | TCP | Localhost only | Wallet gRPC |
+| **9508** | TCP | Inbound + Outbound | P2P node communication |
+| 9509 | TCP | Localhost only | Node RPC |
+| 9510 | TCP | Localhost only | Wallet JSON-RPC |
+| 9511 | TCP | Localhost only | Wallet gRPC |
 
-> **Note**: Only port **9108** needs to be opened for external access. RPC ports should remain localhost-only for security.
+> **Note**: Only port **9508** needs to be opened for external access. RPC ports should remain localhost-only for security.
 
 ### UFW Firewall Configuration (Ubuntu)
 
@@ -279,7 +279,7 @@ sudo ufw status
 #### Allow Monetarium P2P Port
 
 ```bash
-sudo ufw allow 9108/tcp comment 'Monetarium P2P'
+sudo ufw allow 9508/tcp comment 'Monetarium P2P'
 ```
 
 #### Enable Firewall (if not already enabled)
@@ -299,8 +299,8 @@ sudo ufw status numbered
 If using iptables directly:
 
 ```bash
-# Allow incoming connections on port 9108
-sudo iptables -A INPUT -p tcp --dport 9108 -j ACCEPT
+# Allow incoming connections on port 9508
+sudo iptables -A INPUT -p tcp --dport 9508 -j ACCEPT
 
 # Save rules (Ubuntu)
 sudo netfilter-persistent save
@@ -338,8 +338,8 @@ Navigate to **Port Forwarding** (may be under Advanced Settings, NAT, or Virtual
 | Setting | Value |
 |---------|-------|
 | Service Name | Monetarium |
-| External Port | 9108 |
-| Internal Port | 9108 |
+| External Port | 9508 |
+| Internal Port | 9508 |
 | Protocol | TCP |
 | Internal IP | Your machine's IP (e.g., 192.168.1.100) |
 
@@ -379,7 +379,7 @@ After configuration, verify the port is accessible:
 
 ```bash
 # From another network or use online port checker
-nc -zv your.public.ip 9108
+nc -zv your.public.ip 9508
 ```
 
 Or use an online port checker at https://www.yougetsignal.com/tools/open-ports/
@@ -404,7 +404,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=YOUR_USERNAME
-ExecStart=/home/YOUR_USERNAME/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+ExecStart=/home/YOUR_USERNAME/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 Restart=always
 RestartSec=10
 
@@ -506,7 +506,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 ### Official Seed Node
 
 ```
-176.113.164.216:9108
+176.113.164.216:9508
 ```
 
 ### Connection Methods
@@ -514,7 +514,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 #### Method 1: Command Line Flag
 
 ```bash
-~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 ```
 
 #### Method 2: Configuration File
@@ -522,7 +522,7 @@ Since Monetarium does not use DNS seeds, you must manually connect to known peer
 Add to `~/.monetarium/monetarium.conf`:
 
 ```ini
-addpeer=176.113.164.216:9108
+addpeer=176.113.164.216:9508
 ```
 
 #### Method 3: Connect-Only Mode
@@ -530,15 +530,15 @@ addpeer=176.113.164.216:9108
 To connect ONLY to specific peers (no other connections):
 
 ```bash
-~/monetarium/monetarium-node --connect=176.113.164.216:9108
+~/monetarium/monetarium-node --connect=176.113.164.216:9508
 ```
 
 ### Adding Multiple Peers
 
 ```ini
 ; In monetarium.conf
-addpeer=176.113.164.216:9108
-addpeer=another.peer.ip:9108
+addpeer=176.113.164.216:9508
+addpeer=another.peer.ip:9508
 ```
 
 ---
@@ -660,7 +660,7 @@ After configuration, restart the node:
 sudo systemctl restart monetarium-node
 
 # Or manually
-~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 ```
 
 ### Control Mining Threads
@@ -896,7 +896,7 @@ pkill monetarium-wallet
 **Solution**:
 ```bash
 # Ensure seed node is configured
-~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 
 # Check firewall
 sudo ufw status
@@ -907,7 +907,7 @@ sudo ufw status
 **Cause**: Limited peer connections or network issues.
 
 **Solution**:
-- Ensure port 9108 is forwarded in your router
+- Ensure port 9508 is forwarded in your router
 - Add more peers if available
 - Check internet connection stability
 
@@ -945,7 +945,7 @@ journalctl -u monetarium-wallet -f
 
 ```bash
 # Start node
-~/monetarium/monetarium-node --addpeer=176.113.164.216:9108
+~/monetarium/monetarium-node --addpeer=176.113.164.216:9508
 
 # Start wallet
 ~/monetarium/monetarium-wallet
@@ -1021,10 +1021,10 @@ journalctl -u monetarium-wallet -f
 
 | Port | Service |
 |------|---------|
-| 9108 | P2P Network |
-| 9109 | Node RPC |
-| 9110 | Wallet JSON-RPC |
-| 9111 | Wallet gRPC |
+| 9508 | P2P Network |
+| 9509 | Node RPC |
+| 9510 | Wallet JSON-RPC |
+| 9511 | Wallet gRPC |
 
 ### Important Paths
 

@@ -22,10 +22,10 @@ monetarium-ctl --testnet getblockcount
 | Setting | Mainnet | Testnet |
 |---------|---------|---------|
 | Command Flag | (none) | `--testnet` |
-| P2P Port | 9108 | 19108 |
-| Node RPC | 9109 | 19109 |
-| Wallet JSON-RPC | 9110 | 19110 |
-| Wallet gRPC | 9111 | 19111 |
+| P2P Port | 9508 | 19508 |
+| Node RPC | 9509 | 19509 |
+| Wallet JSON-RPC | 9510 | 19510 |
+| Wallet gRPC | 9511 | 19511 |
 | Address Prefix | `Ms` | `Ts` |
 | Block Time | 5 min | 2 min |
 | Halving Interval | ~4 years | ~1 month |
@@ -58,11 +58,11 @@ notls=1
 
 ### Wallet (monetarium-wallet.conf)
 
-The wallet connects to the **node's RPC** (port 19109):
+The wallet connects to the **node's RPC** (port 19509):
 
 ```ini
 testnet=1
-rpcconnect=127.0.0.1:19109
+rpcconnect=127.0.0.1:19509
 username=your_rpc_user
 password=your_rpc_password
 noclienttls=1
@@ -70,7 +70,7 @@ noclienttls=1
 
 ### Ctl (monetarium-ctl.conf)
 
-By default, ctl connects to the **node** (port 19109). Use `--wallet` flag to connect to the **wallet** (port 19110):
+By default, ctl connects to the **node** (port 19509). Use `--wallet` flag to connect to the **wallet** (port 19510):
 
 ```ini
 testnet=1
